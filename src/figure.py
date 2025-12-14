@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class Figure(ABC):
-    @abstractmethod
     @property
+    @abstractmethod
     def area(self) -> int | float:
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def perimeter(self) -> int | float:
         pass
 

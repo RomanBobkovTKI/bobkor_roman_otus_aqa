@@ -4,7 +4,7 @@ from figure import Figure
 
 
 class Circle(Figure):
-    def __init__(self, radius: int | float):
+    def __init__(self, radius: int | float) -> None:
         if radius <= 0:
             raise ValueError("radius must be positive")
 
