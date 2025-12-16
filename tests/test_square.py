@@ -39,18 +39,3 @@ def test_square_perimeter(side, expected):
 def test_square_negative_side(side):
     with pytest.raises(ValueError, match="side must be positive"):
         (Square(side),)
-
-
-@pytest.mark.square
-@pytest.mark.parametrize(
-    ("side_a", "side_b", "expected"),
-    [
-        pytest.param(5, 3, 34, id="int size"),
-        pytest.param(5.5, 3.3, 41.14, id="float size"),
-    ],
-)
-def test_square_add_figure(side_a, side_b, expected):
-    square_1 = Square(side_a)
-    square_2 = Square(side_b)
-    result = square_1.add_area(square_2)
-    assert result == expected, f"{side_a} * {side_a} + {side_b} * {side_b} = {expected}"

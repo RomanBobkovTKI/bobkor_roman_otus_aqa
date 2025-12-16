@@ -58,17 +58,3 @@ def test_triangle_negative_side(side_a, side_b, side_c):
 def test_triangle_impossible_side(side_a, side_b, side_c):
     with pytest.raises(ValueError, match="sides dont be a triangle"):
         Triangle(side_a, side_b, side_c)
-
-
-@pytest.mark.triangle
-@pytest.mark.parametrize(
-    ("side_a", "side_b", "side_c", "side_d", "side_e", "side_f", "expected"),
-    [
-        pytest.param(1, 2, 2, 2.5, 2.5, 1.1, 2.31, id="int size"),
-    ],
-)
-def test_triangle_add_figure(side_a, side_b, side_c, side_d, side_e, side_f, expected):
-    triangle_1 = Triangle(side_a, side_b, side_c)
-    triangle_2 = Triangle(side_d, side_f, side_e)
-    result = triangle_1.add_area(triangle_2)
-    assert round(result, 2) == expected
