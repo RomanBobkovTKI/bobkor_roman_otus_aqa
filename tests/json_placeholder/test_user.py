@@ -9,6 +9,7 @@ from services.user_generate import get_user
 
 load_dotenv()
 url = os.getenv("JSON_PLACEHOLDER_URL")
+user_url = "users"
 
 
 @pytest.mark.json
@@ -21,7 +22,7 @@ url = os.getenv("JSON_PLACEHOLDER_URL")
     ids=["status_code 200"],
 )
 def test_get_users(status_code):
-    response = requests.get(f"{url}/users")
+    response = requests.get(f"{url}/{user_url}")
 
     assert response.status_code == status_code, f"response status_code: {response.status_code} == status_code"
     assert len(response.json()) != 0, f"users is not empty"
@@ -37,11 +38,11 @@ def test_get_users(status_code):
     ]
 )
 def test_get_user_by_id(user_id, status_code):
-    response = requests.get(f"{url}/users/{user_id}")
+    response = requests.get(f"{url}/{user_url}/{user_id}")
     user = response.json()
 
     assert response.status_code == status_code, f"{response.status_code} == 200"
-    assert user.get("id") == user_id, f"user_id: {user_id} == {user_id}"
+    assert user.get("id") == user_id, f"user_id: {user.get("id")} == {user_id}"
 
 @pytest.mark.json
 @pytest.mark.json_user
@@ -54,7 +55,7 @@ def test_get_user_by_id(user_id, status_code):
     ]
 )
 def test_not_found_user(user_id, status_code):
-    response = requests.get(f"{url}/users/{user_id}")
+    response = requests.get(f"{url}/{user_url}/{user_id}")
 
     assert response.status_code == status_code, f"user not found, status_code {status_code}"
 
@@ -62,7 +63,7 @@ def test_not_found_user(user_id, status_code):
 @pytest.mark.json
 @pytest.mark.json_user
 def test_create_user():
-    response = requests.post(f"{url}/users", data=get_user())
+    response = requests.post(f"{url}/{user_url}", data=get_user())
 
     assert response.status_code == 201, f"create user"
 
@@ -78,6 +79,6 @@ def test_create_user():
     ],
 )
 def test_delete_user(user_id, status_code):
-    response = requests.delete(f"{url}/users/{user_id}")
+    response = requests.delete(f"{url}/{user_url}/{user_id}")
 
     assert response.status_code == status_code, f"delete user by id {user_id}"
