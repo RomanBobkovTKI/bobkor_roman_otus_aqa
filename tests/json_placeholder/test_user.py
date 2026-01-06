@@ -24,8 +24,11 @@ user_url = "users"
 def test_get_users(status_code):
     response = requests.get(f"{url}/{user_url}")
 
-    assert response.status_code == status_code, f"response status_code: {response.status_code} == status_code"
+    assert response.status_code == status_code, (
+        f"response status_code: {response.status_code} == status_code"
+    )
     assert len(response.json()) != 0, f"users is not empty"
+
 
 @pytest.mark.json
 @pytest.mark.json_user
@@ -35,14 +38,15 @@ def test_get_users(status_code):
         pytest.param(1, 200, id="get user by id = 1"),
         pytest.param(2, 200, id="get user by id = 2"),
         pytest.param(10, 200, id="get user by id = 2"),
-    ]
+    ],
 )
 def test_get_user_by_id(user_id, status_code):
     response = requests.get(f"{url}/{user_url}/{user_id}")
     user = response.json()
 
     assert response.status_code == status_code, f"{response.status_code} == 200"
-    assert user.get("id") == user_id, f"user_id: {user.get("id")} == {user_id}"
+    assert user.get("id") == user_id, f"user_id: {user.get('id')} == {user_id}"
+
 
 @pytest.mark.json
 @pytest.mark.json_user
@@ -52,12 +56,14 @@ def test_get_user_by_id(user_id, status_code):
         pytest.param(11, 404, id="get user by id = 11"),
         pytest.param(124, 404, id="get user by id = 124"),
         pytest.param(1334, 404, id="get user by id = 1334"),
-    ]
+    ],
 )
 def test_not_found_user(user_id, status_code):
     response = requests.get(f"{url}/{user_url}/{user_id}")
 
-    assert response.status_code == status_code, f"user not found, status_code {status_code}"
+    assert response.status_code == status_code, (
+        f"user not found, status_code {status_code}"
+    )
 
 
 @pytest.mark.json
