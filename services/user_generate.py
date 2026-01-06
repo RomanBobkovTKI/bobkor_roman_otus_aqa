@@ -13,7 +13,10 @@ def get_user():
             "suite": fake.building_number(),
             "city": fake.city(),
             "zipcode": fake.zipcode(),
-            "geo": {"lat": fake.random_int(min=0, max=15), "lng": fake.random_int(min=0, max=15),},
+            "geo": {
+                "lat": fake.random_int(min=0, max=15),
+                "lng": fake.random_int(min=0, max=15),
+            },
         },
         "phone": fake.phone_number(),
         "website": fake.url(),
