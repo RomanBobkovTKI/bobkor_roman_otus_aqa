@@ -60,3 +60,25 @@ def test_get_brewery_by_id(brewery_service, name):
     brewery_list = brewery_service.get_brewery_by_name(name)
 
     assert len(brewery_list) >= 1
+
+@pytest.mark.brewery
+@pytest.mark.parametrize(
+    "brewery_size",
+    [
+        pytest.param(1, id="get brewery by random, size = 1"),
+        pytest.param(30, id="get brewery by random, size = 30"),
+        pytest.param(0, id="get brewery by random, size = 30"),
+    ]
+)
+def test_get_brewery_by_random(brewery_service, brewery_size):
+    brewery_list = brewery_service.get_brewery_by_random(size=brewery_size)
+    print(brewery_list)
+
+    assert len(brewery_list) == brewery_size
+
+@pytest.mark.brewery
+def test_get_brewery_by_random(brewery_service):
+    with pytest.raises(requests.exceptions.HTTPError) as exc_info:
+        brewery_service.get_brewery_by_random(100)
+
+        assert exc_info.value.response.status_code == 400

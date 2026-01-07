@@ -22,3 +22,9 @@ class BreweryService(BaseClient):
         data = response.json()
 
         return [Brewery(**brewery) for brewery in data]
+
+    def get_brewery_by_random(self, size: int = None) -> List[Brewery]:
+        response = self.get("random", params={"size": size})
+
+        data = response.json()
+        return [Brewery(**brewery) for brewery in data]
