@@ -4,7 +4,7 @@ import pytest
 import requests
 from dotenv import load_dotenv
 
-from services.post_generate import get_post
+from services.post_generate import get_random_post
 
 load_dotenv()
 url = os.getenv("JSON_PLACEHOLDER_URL")
@@ -65,7 +65,7 @@ def test_not_found_post(post_id, status_code):
 @pytest.mark.json
 @pytest.mark.json_post
 def test_create_post():
-    response = requests.post(f"{url}/{post_url}", data=get_post())
+    response = requests.post(f"{url}/{post_url}", data=get_random_post())
 
     assert response.status_code == 201, f"create post"
 
