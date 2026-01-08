@@ -1,11 +1,9 @@
 import os
 
 import pytest
-from dotenv import load_dotenv
 
 from services.auth_service import AuthService
 
-load_dotenv()
 login = os.environ.get("LOGIN")
 password = os.environ.get("PASSWORD")
 jwt_url = os.environ.get("JWT_URL")
@@ -16,7 +14,7 @@ def get_token(request):
     token = auth_service.login(username=login, password=password)
     return token
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def auth_service(get_token):
     return AuthService(base_url=jwt_url, token=get_token)
 

@@ -3,11 +3,9 @@ import os
 import requests
 
 import pytest
-from dotenv import load_dotenv
 
 from services.user_generate import get_user
 
-load_dotenv()
 url = os.getenv("JSON_PLACEHOLDER_URL")
 user_url = "users"
 

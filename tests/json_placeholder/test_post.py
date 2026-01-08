@@ -2,11 +2,9 @@ import os
 
 import pytest
 import requests
-from dotenv import load_dotenv
 
 from services.post_generate import get_random_post
 
-load_dotenv()
 url = os.getenv("JSON_PLACEHOLDER_URL")
 post_url = "posts"
 

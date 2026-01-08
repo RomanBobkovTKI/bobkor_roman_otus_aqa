@@ -2,11 +2,9 @@ import os
 
 import pytest
 import requests
-from dotenv import load_dotenv
 
 from services.brewery import BreweryService
 
-load_dotenv()
 url = os.getenv("BREWERY")
 
 
