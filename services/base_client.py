@@ -7,9 +7,11 @@ logger = logging.getLogger(__name__)
 
 
 class BaseClient:
-    def __init__(self, base_url):
+    def __init__(self, base_url: str, token: Optional[str] = None):
         self.base_url = base_url
         self.session = requests.Session()
+        if token:
+            self.session.headers.update({"Authorization": f"Bearer {token}"})
 
     def _make_request(self, method: str, endpoint: str, **kwargs) -> requests.Response:
         url = f"{self.base_url}/{endpoint.lstrip('/')}"
