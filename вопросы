@@ -1,0 +1,13 @@
+1. Как правильно сделать
+
+host = request.config.getoption("--url")
+и выбор через env
+
+я сделал так:
+
+host = request.config.getoption("--url")
+
+    if host == "default":
+        host = os.getenv("LOCALHOST")
+
+    url = f"{protocol}://{host}:{port}"

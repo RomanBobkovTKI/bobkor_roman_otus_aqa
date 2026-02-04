@@ -15,6 +15,8 @@ def driver(request):
         pass
     elif browser_name == "yandex":
         pass
+    else:
+        pytest.fail(f"Unsupported browser {browser_name}")
 
     yield driver
 

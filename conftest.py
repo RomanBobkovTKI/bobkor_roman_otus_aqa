@@ -14,6 +14,13 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
+        "--url",
+        action="store",
+        default="default",
+        help="url of PrestaShop",
+    )
+
+    parser.addoption(
         "--headless",
         action="store_true",
         help="run in headless mode",
