@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.service import Service
 
+
 @pytest.fixture()
 def driver(request):
     browser_name = request.config.getoption("--browser")
