@@ -89,3 +89,43 @@ def test_click_to_sign_in_button(driver, presta_shop_url):
     assert "login" in driver.current_url, (
         f"Неверный роут при переходе на страницу логина, ожидалось: {'/login'}, получено {driver.current_url}"
     )
+
+
+@pytest.mark.main_page
+def test_cart_is_visible(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    element = wait_element("#_desktop_cart", driver)
+
+    assert element.is_displayed(), f"Элемент корзины не виден в хедере"
+
+
+@pytest.mark.main_page
+def test_main_logo_is_visible(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    logo = wait_element("#_desktop_logo", driver)
+
+    assert logo.is_displayed(), f"Логотип не отображается"
+
+
+@pytest.mark.main_page
+def test_href_main_logo(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    logo = wait_element("#_desktop_logo a", driver)
+    logo_href = logo.get_attribute("href")
+
+    assert logo_href == f"{presta_shop_url}/", f"Неверный аттрибут href: ожидалось: {"/"}, получено {logo_href}"
+
+
+@pytest.mark.main_page
+def test_click_main_logo(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    logo = wait_element("#_desktop_logo a", driver)
+    logo.click()
+
+    wait_element("#_desktop_logo a", driver)
+
+    assert driver.current_url == f"{presta_shop_url}/", f"Неверная ссылка по лого"
