@@ -41,6 +41,8 @@ def driver(request):
     else:
         pytest.fail(f"Unsupported browser {browser_name}")
 
+    driver.implicitly_wait(2)
+
     yield driver
 
     driver.quit()
