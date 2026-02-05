@@ -55,3 +55,7 @@ def test_click_main_logo(driver, presta_shop_url):
     wait_element("#_desktop_logo a", driver)
 
     assert driver.current_url == f"{presta_shop_url}/", f"Неверная ссылка по лого"
+
+
+ 8. Почему когда я запускаю --headless у меня часто падают тесты с ошибкой:
+ AssertionError: Не дождался видимости элемент
