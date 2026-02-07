@@ -2,7 +2,7 @@ import pytest
 
 from fixtures.driver import driver
 from fixtures.url import presta_shop_url
-from utils.wait_element import wait_element
+from utils.wait_element import wait_element, wait_elements
 
 
 # Знаю что title есть не только на главной странице, но это был "первый тест", решил оставить его тут
@@ -129,3 +129,29 @@ def test_click_main_logo(driver, presta_shop_url):
     wait_element("#_desktop_logo a", driver)
 
     assert driver.current_url == f"{presta_shop_url}/", f"Неверная ссылка по лого"
+
+
+@pytest.mark.main_page
+def test_click_to_clothes_button(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    button = wait_element("#category-3", driver)
+    button.click()
+
+    header_text = wait_element("h1", driver).text
+
+    assert header_text == "CLOTHES", f"Неверный header страницы, ожидалось: {"CLOTHES"}, получено {header_text}"
+    assert "clothes" in driver.current_url, f"Неверный url по переходу в clothes, ожидалсь совпадение по {"clothes"}, получено {driver.current_url}"
+
+
+@pytest.mark.main_page
+def test_click_to_accessories_button(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    button = wait_element("#category-6", driver)
+    button.click()
+
+    header_text = wait_element("h1", driver).text
+
+    assert header_text == "ACCESSORIES", f"Неверный header страницы, ожидалось: {"ACCESSORIES"}, получено {header_text}"
+    assert "accessories" in driver.current_url, f"Неверный url по переходу в accessories, ожидалсь совпадение по {"accessories"}, получено {driver.current_url}"
