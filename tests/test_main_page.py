@@ -2,7 +2,7 @@ import pytest
 
 from fixtures.driver import driver
 from fixtures.url import presta_shop_url
-from utils.wait_element import wait_element, wait_elements
+from utils.wait_element import wait_element
 
 
 # Знаю что title есть не только на главной странице, но это был "первый тест", решил оставить его тут
