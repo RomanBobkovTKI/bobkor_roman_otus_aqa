@@ -116,7 +116,9 @@ def test_href_main_logo(driver, presta_shop_url):
     logo = wait_element("#_desktop_logo a", driver)
     logo_href = logo.get_attribute("href")
 
-    assert logo_href == f"{presta_shop_url}/", f"Неверный аттрибут href: ожидалось: {"/"}, получено {logo_href}"
+    assert logo_href == f"{presta_shop_url}/", (
+        f"Неверный аттрибут href: ожидалось: {'/'}, получено {logo_href}"
+    )
 
 
 @pytest.mark.main_page
@@ -140,8 +142,12 @@ def test_click_to_clothes_button(driver, presta_shop_url):
 
     header_text = wait_element("h1", driver).text
 
-    assert header_text == "CLOTHES", f"Неверный header страницы, ожидалось: {"CLOTHES"}, получено {header_text}"
-    assert "clothes" in driver.current_url, f"Неверный url по переходу в clothes, ожидалсь совпадение по {"clothes"}, получено {driver.current_url}"
+    assert header_text == "CLOTHES", (
+        f"Неверный header страницы, ожидалось: {'CLOTHES'}, получено {header_text}"
+    )
+    assert "clothes" in driver.current_url, (
+        f"Неверный url по переходу в clothes, ожидалсь совпадение по {'clothes'}, получено {driver.current_url}"
+    )
 
 
 @pytest.mark.main_page
@@ -153,5 +159,9 @@ def test_click_to_accessories_button(driver, presta_shop_url):
 
     header_text = wait_element("h1", driver).text
 
-    assert header_text == "ACCESSORIES", f"Неверный header страницы, ожидалось: {"ACCESSORIES"}, получено {header_text}"
-    assert "accessories" in driver.current_url, f"Неверный url по переходу в accessories, ожидалсь совпадение по {"accessories"}, получено {driver.current_url}"
+    assert header_text == "ACCESSORIES", (
+        f"Неверный header страницы, ожидалось: {'ACCESSORIES'}, получено {header_text}"
+    )
+    assert "accessories" in driver.current_url, (
+        f"Неверный url по переходу в accessories, ожидалсь совпадение по {'accessories'}, получено {driver.current_url}"
+    )
