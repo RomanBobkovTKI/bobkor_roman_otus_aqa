@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from fixtures.driver import driver
 from fixtures.url import presta_shop_url
 from utils.wait_element import wait_element, wait_elements
+from utils.currency_symbol import extract_currency_symbol
 
 
 @pytest.mark.clothes_page
@@ -98,3 +99,24 @@ def test_click_on_women_categories(driver, presta_shop_url):
     assert "5-women" in driver.current_url, (
         f"Неверный url после перехода, ожидалось содержание 5-women, получили {driver.current_url}"
     )
+
+
+@pytest.mark.clothes_page
+@pytest.mark.parametrize("presta_shop_url", ["3-clothes"], indirect=True)
+def test_change_currencly(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    random_price = wait_element(".price", driver).text
+    currency_symbol_before = extract_currency_symbol(random_price)
+
+    change_button = wait_element(".hidden-sm-down.btn-unstyle", driver)
+    change_button.click()
+
+    dollar_button = wait_element("a[title='US Dollar']", driver)
+    dollar_button.click()
+
+    random_price = wait_element(".price", driver).text
+    currency_symbol_after = extract_currency_symbol(random_price)
+
+    assert currency_symbol_before != currency_symbol_after
+    assert "?SubmitCurrency=1&id_currency=2" in driver.current_url
