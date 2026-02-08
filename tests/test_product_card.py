@@ -1,3 +1,4 @@
+import re
 import time
 
 import pytest
@@ -46,21 +47,26 @@ def test_add_to_cart_is_display(driver, presta_shop_url):
     )
     assert button.is_displayed(), f"Кнопка добавления в корзину не отображается"
 
-# Не понимаю почему этот тест не проходит
-# Задать вопрос на разборе ДЗ
+
 @pytest.mark.product_card
-@pytest.mark.skip
 def test_click_to_add_to_cart(driver, presta_shop_url):
     driver.get(presta_shop_url)
+    products_count_str = wait_element(".cart-products-count", driver).text
+    product_count_before = int(re.search(r'\d+', products_count_str).group())
     click_to_random_elements(driver, wait_elements, ".thumbnail.product-thumbnail")
 
     button = wait_element(".add-to-cart", driver)
     button.click()
 
-    header_success_modal = wait_element("h4.modal-title", driver)
-    header_text_modal = header_success_modal.text
+    wait_element(".modal-header .close .material-icons", driver).click()
 
-    assert header_text_modal == "Product successfully added to your shopping cart"
+    products_count_str = wait_element(".cart-products-count", driver).text
+    product_count_after = int(re.search(r'\d+', products_count_str).group())
+
+    print(product_count_before, product_count_after)
+    assert product_count_before < product_count_after
+
+
 
 
 @pytest.mark.product_card

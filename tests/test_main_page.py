@@ -3,6 +3,7 @@ import pytest
 from fixtures.driver import driver
 from fixtures.url import presta_shop_url
 from utils.wait_element import wait_element
+from utils.currency_symbol import extract_currency_symbol
 
 
 # Знаю что title есть не только на главной странице, но это был "первый тест", решил оставить его тут
@@ -165,3 +166,23 @@ def test_click_to_accessories_button(driver, presta_shop_url):
     assert "accessories" in driver.current_url, (
         f"Неверный url по переходу в accessories, ожидалсь совпадение по {'accessories'}, получено {driver.current_url}"
     )
+
+
+@pytest.mark.main_page
+def test_change_currency(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    random_price = wait_element(".price", driver).text
+    currency_symbol_before = extract_currency_symbol(random_price)
+
+    change_button = wait_element(".hidden-sm-down.btn-unstyle", driver)
+    change_button.click()
+
+    dollar_button = wait_element("a[title='US Dollar']", driver)
+    dollar_button.click()
+
+    random_price = wait_element(".price", driver).text
+    currency_symbol_after = extract_currency_symbol(random_price)
+
+    assert currency_symbol_before != currency_symbol_after
+    assert "?SubmitCurrency=1&id_currency=2" in driver.current_url
