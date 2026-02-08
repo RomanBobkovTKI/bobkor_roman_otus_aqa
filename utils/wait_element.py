@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def wait_element(selector, driver, timeout=4, by=By.CSS_SELECTOR):
     try:
         return WebDriverWait(driver, timeout).until(
-            EC.visibility_of_element_located((by, selector))
+            EC.presence_of_element_located((by, selector))
         )
     except TimeoutException:
         raise AssertionError(f"Не дождался видимости элемента: {selector}")
