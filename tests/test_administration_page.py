@@ -1,6 +1,7 @@
 import pytest
 
 from fixtures.driver import driver
+from fixtures.login_to_admin import admin_login
 from fixtures.url import presta_shop_url
 from utils.wait_element import wait_element
 
@@ -64,3 +65,45 @@ def test_stay_logged_in(driver, presta_shop_url):
 
     assert stay_logged_in_text == "stay logged in", f"Не совпадет текст: {"stay logged in"}, ожидалось: {stay_logged_in_text}"
     assert stay_logged_in.is_displayed(), f"Не отображается надпись {"stay logged in"}"
+
+
+@pytest.mark.administration_page
+@pytest.mark.parametrize("presta_shop_url", ["administration/login?_token="], indirect=True)
+def test_login(driver, presta_shop_url):
+    driver.get(presta_shop_url)
+
+    email_input = wait_element("#email", driver)
+    password_input = wait_element("#passwd", driver)
+    login_button = wait_element("#submit_login", driver)
+
+    email_input.clear()
+    password_input.clear()
+
+    # вот тут наверно нужен какой-то дата сет с тестовыми данными
+    email_input.send_keys("admin@example.com")
+    password_input.send_keys("Admin123!")
+
+    login_button.click()
+
+    header_dashboard = wait_element("h1.page-title", driver, timeout=10)
+    header_dashboard_text = header_dashboard.text.strip().lower()
+
+    assert header_dashboard_text == "dashboard"
+    assert header_dashboard.is_displayed()
+    assert "administration/?controller=AdminDashboard" in driver.current_url
+
+
+@pytest.mark.administration_page
+def test_logout(admin_login):
+    driver = admin_login
+
+    profile_icon = wait_element("#employee_infos", driver)
+    profile_icon.click()
+
+    logout_button = wait_element("#header_logout", driver)
+    logout_button.click()
+
+    wait_element("#shop-img", driver)
+
+    assert "/administration/login" in driver.current_url
+

@@ -16,6 +16,7 @@ def driver(request):
         if headless:
             options.add_argument("--headless")
 
+        options.page_load_strategy = 'eager'
         driver = webdriver.Chrome(options=options)
     elif browser_name == "firefox":
         options = FirefoxOptions()
