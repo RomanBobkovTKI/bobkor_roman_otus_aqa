@@ -49,7 +49,7 @@ def test_add_to_cart_is_display(driver, presta_shop_url):
 # Не понимаю почему этот тест не проходит
 # Задать вопрос на разборе ДЗ
 @pytest.mark.product_card
-@pytest.skip
+@pytest.mark.skip
 def test_click_to_add_to_cart(driver, presta_shop_url):
     driver.get(presta_shop_url)
     click_to_random_elements(driver, wait_elements, ".thumbnail.product-thumbnail")
