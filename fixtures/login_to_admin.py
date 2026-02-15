@@ -3,6 +3,7 @@ from fixtures.driver import driver
 from fixtures.url import presta_shop_url
 from utils.wait_element import wait_element
 
+
 def login_to_admin(driver, base_url):
     admin_url = f"{base_url.rstrip('/')}/administration/login?_token="  # или как у вас называется папка
     driver.get(admin_url)

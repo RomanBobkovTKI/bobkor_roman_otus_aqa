@@ -4,9 +4,21 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-class BasePage():
+class BasePage:
     def __init__(self, driver):
-        self.driver = driver
+        self._driver = driver
+
+    @property
+    def driver(self):
+        return self._driver
+
+    @property
+    def current_url(self):
+        return self._driver.current_url
+
+    @property
+    def title(self):
+        return self._driver.title
 
     def wait_element(self, locator: tuple[str, str], timeout: int = 4):
         try:

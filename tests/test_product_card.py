@@ -52,7 +52,7 @@ def test_add_to_cart_is_display(driver, presta_shop_url):
 def test_click_to_add_to_cart(driver, presta_shop_url):
     driver.get(presta_shop_url)
     products_count_str = wait_element(".cart-products-count", driver).text
-    product_count_before = int(re.search(r'\d+', products_count_str).group())
+    product_count_before = int(re.search(r"\d+", products_count_str).group())
     click_to_random_elements(driver, wait_elements, ".thumbnail.product-thumbnail")
 
     button = wait_element(".add-to-cart", driver)
@@ -61,12 +61,10 @@ def test_click_to_add_to_cart(driver, presta_shop_url):
     wait_element(".modal-header .close .material-icons", driver).click()
 
     products_count_str = wait_element(".cart-products-count", driver).text
-    product_count_after = int(re.search(r'\d+', products_count_str).group())
+    product_count_after = int(re.search(r"\d+", products_count_str).group())
 
     print(product_count_before, product_count_after)
     assert product_count_before < product_count_after
-
-
 
 
 @pytest.mark.product_card

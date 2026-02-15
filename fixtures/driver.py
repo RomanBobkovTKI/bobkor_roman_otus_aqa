@@ -3,10 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.service import Service
+from fixtures.url import presta_shop_url
 
 
 @pytest.fixture()
-def driver(request):
+def driver(request, presta_shop_url):
     browser_name = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
 
@@ -16,7 +17,7 @@ def driver(request):
         if headless:
             options.add_argument("--headless")
 
-        options.page_load_strategy = 'eager'
+        options.page_load_strategy = "eager"
         driver = webdriver.Chrome(options=options)
     elif browser_name == "firefox":
         options = FirefoxOptions()
@@ -43,6 +44,7 @@ def driver(request):
         pytest.fail(f"Unsupported browser {browser_name}")
 
     driver.implicitly_wait(2)
+    driver.get(presta_shop_url)
 
     yield driver
 
