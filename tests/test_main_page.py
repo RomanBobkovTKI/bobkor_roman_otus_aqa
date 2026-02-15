@@ -9,7 +9,6 @@ from page_object_model.contact_us_page import ContactUs
 from page_object_model.elements.header import Header
 from page_object_model.login_page import LoginPage
 from page_object_model.main_page import MainPage
-from utils.wait_element import wait_element
 from utils.currency_symbol import extract_currency_symbol
 
 
