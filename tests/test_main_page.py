@@ -2,8 +2,10 @@ import pytest
 
 from fixtures.driver import driver
 from fixtures.url import presta_shop_url
+from page_object_model.accessories_page import AccessoriesPage
 from page_object_model.base_page import BasePage
-from page_object_model.contact_us import ContactUs
+from page_object_model.clothes_page import ClothesPage
+from page_object_model.contact_us_page import ContactUs
 from page_object_model.elements.header import Header
 from page_object_model.login_page import LoginPage
 from page_object_model.main_page import MainPage
@@ -119,54 +121,47 @@ def test_click_main_logo(driver, presta_shop_url):
 
 
 @pytest.mark.main_page
-def test_click_to_clothes_button(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_click_to_clothes_button(driver):
+    expected_header_text = "clothes"
+    expected_url_path = "clothes"
+    Header(driver).click_to_clothes_button()
+    header_text = ClothesPage(driver).header.text.strip().lower()
 
-    button = wait_element("#category-3", driver)
-    button.click()
-
-    header_text = wait_element("h1", driver).text
-
-    assert header_text == "CLOTHES", (
-        f"Неверный header страницы, ожидалось: {'CLOTHES'}, получено {header_text}"
+    assert header_text == expected_header_text, (
+        f"Неверный header страницы, ожидалось: {expected_header_text}, получено {header_text}"
     )
-    assert "clothes" in driver.current_url, (
-        f"Неверный url по переходу в clothes, ожидалсь совпадение по {'clothes'}, получено {driver.current_url}"
+    assert expected_url_path in BasePage(driver).current_url, (
+        f"Неверный url по переходу в clothes, ожидалсь совпадение по {expected_url_path}, получено {BasePage(driver).current_url}"
     )
 
 
 @pytest.mark.main_page
-def test_click_to_accessories_button(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_click_to_accessories_button(driver):
+    expected_header_text = "accessories"
+    expected_url_path = "accessories"
+    Header(driver).click_to_accessories_button()
+    actual_header_text = AccessoriesPage(driver).header.text.strip().lower()
 
-    button = wait_element("#category-6", driver)
-    button.click()
-
-    header_text = wait_element("h1", driver).text
-
-    assert header_text == "ACCESSORIES", (
-        f"Неверный header страницы, ожидалось: {'ACCESSORIES'}, получено {header_text}"
+    assert expected_header_text == actual_header_text, (
+        f"Неверный header страницы, ожидалось: {expected_header_text}, получено {actual_header_text}"
     )
-    assert "accessories" in driver.current_url, (
-        f"Неверный url по переходу в accessories, ожидалсь совпадение по {'accessories'}, получено {driver.current_url}"
+    assert expected_url_path in BasePage(driver).current_url, (
+        f"Неверный url по переходу в accessories, ожидалсь совпадение по {expected_url_path}, получено {BasePage(driver).current_url}"
     )
 
 
 @pytest.mark.main_page
 def test_change_currency(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+    expected_dollar_query = "?SubmitCurrency=1&id_currency=2"
 
-    random_price = wait_element(".price", driver).text
+    random_price = MainPage(driver).currency_price_element.text
     currency_symbol_before = extract_currency_symbol(random_price)
 
-    change_button = wait_element(".hidden-sm-down.btn-unstyle", driver)
-    change_button.click()
+    Header(driver).click_to_change_currency_button()
+    Header(driver).click_to_dollar_value_in_currency_option()
 
-    dollar_button = wait_element("a[title='US Dollar']", driver)
-    dollar_button.click()
-
-    random_price = wait_element(".price", driver).text
+    random_price = MainPage(driver).currency_price_element.text
     currency_symbol_after = extract_currency_symbol(random_price)
 
     assert currency_symbol_before != currency_symbol_after
-    assert "?SubmitCurrency=1&id_currency=2" in driver.current_url
+    assert expected_dollar_query in BasePage(driver).current_url

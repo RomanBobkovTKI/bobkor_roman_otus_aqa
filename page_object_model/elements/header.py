@@ -15,6 +15,10 @@ class Header(BasePage):
     CART_ELEMENT = (By.CSS_SELECTOR, "#_desktop_cart")
     LOGO_ELEMENT = (By.CSS_SELECTOR, "#_desktop_logo")
     LOGO_LINK = (By.CSS_SELECTOR, "#_desktop_logo a")
+    CLOTHES_BUTTON = (By.CSS_SELECTOR, "#category-3")
+    ACCESSORIES_BUTTON = (By.CSS_SELECTOR, "#category-6")
+    CHANGE_CURRENCY_BUTTON = (By.CSS_SELECTOR, ".hidden-sm-down.btn-unstyle")
+    DOLLAR_VALUE_IN_CURRENCY_OPTION = (By.CSS_SELECTOR, "a[title='US Dollar']")
 
     @property
     def contact_us_link(self):
@@ -69,3 +73,19 @@ class Header(BasePage):
     def click_to_logo(self):
         link = self.wait_element(self.LOGO_ELEMENT)
         link.click()
+
+    def click_to_clothes_button(self):
+        button = self.wait_element(self.CLOTHES_BUTTON)
+        button.click()
+
+    def click_to_accessories_button(self):
+        button = self.wait_element(self.ACCESSORIES_BUTTON)
+        button.click()
+
+    def click_to_change_currency_button(self):
+        button = self.wait_element(self.CHANGE_CURRENCY_BUTTON)
+        button.click()
+
+    def click_to_dollar_value_in_currency_option(self):
+        dollar_value = self.wait_element(self.DOLLAR_VALUE_IN_CURRENCY_OPTION)
+        dollar_value.click()
