@@ -1,7 +1,6 @@
 import pytest
 
 from fixtures.driver import driver
-from fixtures.url import presta_shop_url
 from page_object_model.elements.header import Header
 from page_object_model.elements.sign_in_login_modal import SignInLoginModal
 from page_object_model.elements.success_add_to_cart_modal import SuccessAddToCartModal
@@ -85,7 +84,7 @@ def test_share_to_pinterest_is_display(driver):
 
 
 @pytest.mark.product_card
-def test_add_in_wishlist_is_display(driver, presta_shop_url):
+def test_add_in_wishlist_is_display(driver):
     MainPage(driver).click_to_random_product_card()
 
     assert ProductCard(driver).wishlist_button.is_displayed(), (
@@ -94,7 +93,7 @@ def test_add_in_wishlist_is_display(driver, presta_shop_url):
 
 
 @pytest.mark.product_card
-def test_click_to_add_in_wishlist_no_auth(driver, presta_shop_url):
+def test_click_to_add_in_wishlist_no_auth(driver):
     MainPage(driver).click_to_random_product_card()
     ProductCard(driver).click_to_add_to_wishlist()
 
