@@ -12,7 +12,10 @@ class AdministrationPage(BasePage):
     PASSWORD_LABEL = (By.CSS_SELECTOR, "label[for='passwd']")
     LOGIN_BUTTON = (By.CSS_SELECTOR, "#submit_login")
     FORGOT_PASS_LINK = (By.CSS_SELECTOR, "#forgot-password-link")
-    RESET_PASS_BUTTON = (By.CSS_SELECTOR, "#request_password_reset_buttons_submit_login")
+    RESET_PASS_BUTTON = (
+        By.CSS_SELECTOR,
+        "#request_password_reset_buttons_submit_login",
+    )
     STAY_LOGIN_IN_LABEL = (By.CSS_SELECTOR, ".md-checkbox label")
     LOGIN_LOGO = (By.CSS_SELECTOR, "#shop-img")
 
