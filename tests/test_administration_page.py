@@ -3,136 +3,113 @@ import pytest
 from fixtures.driver import driver
 from fixtures.login_to_admin import admin_login
 from fixtures.url import presta_shop_url
+from page_object_model.administration_login_page import AdministrationPage
+from page_object_model.administration_main_page import AdministrationMainPage
+from page_object_model.base_page import BasePage
 from utils.wait_element import wait_element
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_email_input_is_desplayed(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_email_input_is_desplayed(driver):
+    expected_email_label = "email address"
+    actual_mail_label_text = AdministrationPage(driver).email_label.text.strip().lower()
 
-    email_input = wait_element("#email", driver)
-    mail_label_text = wait_element("label[for='email']", driver).text.strip().lower()
-
-    assert email_input.is_displayed(), f"Не отображается инпут ввода мейла"
-    assert mail_label_text == "email address", (
-        f"Не соотвествует лейбл к инпуту, ожидалось: email address, получили: {mail_label_text}"
+    assert AdministrationPage(driver).email_input.is_displayed(), f"Не отображается инпут ввода мейла"
+    assert actual_mail_label_text == expected_email_label, (
+        f"Не соотвествует лейбл к инпуту, ожидалось: {expected_email_label}, получили: {actual_mail_label_text}"
     )
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_password_input_is_desplayed(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_password_input_is_desplayed(driver):
+    expected_password_label = "password"
+    actual_password_label_text = AdministrationPage(driver).password_label.text.strip().lower()
 
-    password_input = wait_element("#passwd", driver)
-    password_label_text = (
-        wait_element("label[for='passwd']", driver).text.strip().lower()
-    )
-
-    assert password_input.is_displayed(), f"Не отображается инпут ввода пароля"
-    assert password_label_text == "password", (
-        f"Не соотвествует лейбл к инпуту, ожидалось: password, получили: {password_label_text}"
+    assert AdministrationPage(driver).password_input.is_displayed(), f"Не отображается инпут ввода пароля"
+    assert actual_password_label_text == expected_password_label, (
+        f"Не соотвествует лейбл к инпуту, ожидалось: {expected_password_label}, получили: {actual_password_label_text}"
     )
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_login_button_is_desplayed(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_login_button_is_desplayed(driver):
+    expected_login_label = "log in"
+    login_button_text = AdministrationPage(driver).login_button.text.strip().lower()
 
-    login_button = wait_element("#submit_login", driver)
-    login_button_text = login_button.text.strip().lower()
-
-    assert login_button_text == "log in", (
-        f"Не совпадает текст в кнопке логина, ожидаем: {'log in'}, получаем {login_button_text}"
+    assert login_button_text == expected_login_label, (
+        f"Не совпадает текст в кнопке логина, ожидаем: {expected_login_label}, получаем {login_button_text}"
     )
-    assert login_button.is_displayed(), f"Не отображается кнопка логина"
+    assert AdministrationPage(driver).login_button.is_displayed(), f"Не отображается кнопка логина"
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_click_to_forgot_pass(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_click_to_forgot_pass(driver):
+    expected_forgot_password_text = "i forgot my password"
+    forgot_pass_button_text = AdministrationPage(driver).forgot_pass_link.text.strip().lower()
+    AdministrationPage(driver).click_to_forgot_pass()
 
-    forgot_pass_button = wait_element("#forgot-password-link", driver)
-    reset_password_button = wait_element(
-        "#request_password_reset_buttons_submit_login", driver
+    assert forgot_pass_button_text == expected_forgot_password_text, (
+        f"Не совпадает текст восстановления пароля, ожидаем: {expected_forgot_password_text}, получаем: {forgot_pass_button_text}"
     )
-    forgot_pass_button_text = forgot_pass_button.text.strip().lower()
-
-    forgot_pass_button.click()
-
-    assert forgot_pass_button_text == "i forgot my password", (
-        f"Не совпадает текст восстановления пароля, ожидаем: {'i forgot my password'}, получаем: {forgot_pass_button_text}"
-    )
-    assert reset_password_button.is_displayed(), (
+    assert AdministrationPage(driver).reset_pass_button.is_displayed(), (
         f"Не видна кнопка восстановления пароля"
     )
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_stay_logged_in(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_stay_logged_in(driver):
+    expected_text = "stay logged in"
+    stay_logged_in_text = AdministrationPage(driver).stay_logged_in_label.text.strip().lower()
 
-    stay_logged_in = wait_element(".md-checkbox label", driver)
-    stay_logged_in_text = stay_logged_in.text.strip().lower()
-
-    assert stay_logged_in_text == "stay logged in", (
-        f"Не совпадет текст: {'stay logged in'}, ожидалось: {stay_logged_in_text}"
+    assert stay_logged_in_text == expected_text, (
+        f"Не совпадет текст: {expected_text}, ожидалось: {stay_logged_in_text}"
     )
-    assert stay_logged_in.is_displayed(), f"Не отображается надпись {'stay logged in'}"
+    assert AdministrationPage(driver).stay_logged_in_label.is_displayed(), f"Не отображается надпись {'stay logged in'}"
 
 
 @pytest.mark.administration_page
 @pytest.mark.parametrize(
-    "presta_shop_url", ["administration/login?_token="], indirect=True
+    "presta_shop_url", [AdministrationPage.URL], indirect=True
 )
-def test_login(driver, presta_shop_url):
-    driver.get(presta_shop_url)
+def test_login(driver):
+    expected_dashboard_header = "dashboard"
+    expected_url_path = "administration/?controller=AdminDashboard"
 
-    email_input = wait_element("#email", driver)
-    password_input = wait_element("#passwd", driver)
-    login_button = wait_element("#submit_login", driver)
-
-    email_input.clear()
-    password_input.clear()
-
+    AdministrationPage(driver).clear_email_input()
+    AdministrationPage(driver).clear_password_input()
     # вот тут наверно нужен какой-то дата сет с тестовыми данными
-    email_input.send_keys("admin@example.com")
-    password_input.send_keys("Admin123!")
+    AdministrationPage(driver).send_keys_to_email("admin@example.com")
+    AdministrationPage(driver).send_keys_to_password("Admin123!")
+    AdministrationPage(driver).click_to_log_in_button()
 
-    login_button.click()
+    header_dashboard_text = AdministrationMainPage(driver).dashboard_header.text.strip().lower()
 
-    header_dashboard = wait_element("h1.page-title", driver, timeout=10)
-    header_dashboard_text = header_dashboard.text.strip().lower()
-
-    assert header_dashboard_text == "dashboard"
-    assert header_dashboard.is_displayed()
-    assert "administration/?controller=AdminDashboard" in driver.current_url
+    assert header_dashboard_text == expected_dashboard_header
+    assert AdministrationMainPage(driver).dashboard_header.is_displayed()
+    assert expected_url_path in BasePage(driver).current_url
 
 
 @pytest.mark.administration_page
 def test_logout(admin_login):
-    driver = admin_login
+    expected_url_path = "/administration/login"
 
-    profile_icon = wait_element("#employee_infos", driver)
-    profile_icon.click()
+    AdministrationMainPage(admin_login).click_to_profile_icon()
+    AdministrationMainPage(admin_login).click_logout_button()
+    AdministrationPage(admin_login).login_logo
 
-    logout_button = wait_element("#header_logout", driver)
-    logout_button.click()
-
-    wait_element("#shop-img", driver)
-
-    assert "/administration/login" in driver.current_url
+    assert expected_url_path in BasePage(admin_login).current_url
