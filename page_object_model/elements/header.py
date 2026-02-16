@@ -1,3 +1,5 @@
+import re
+
 from selenium.webdriver.common.by import By
 
 from page_object_model.base_page import BasePage
@@ -19,6 +21,7 @@ class Header(BasePage):
     ACCESSORIES_BUTTON = (By.CSS_SELECTOR, "#category-6")
     CHANGE_CURRENCY_BUTTON = (By.CSS_SELECTOR, ".hidden-sm-down.btn-unstyle")
     DOLLAR_VALUE_IN_CURRENCY_OPTION = (By.CSS_SELECTOR, "a[title='US Dollar']")
+    COUNT_ITEM_IN_CART = (By.CSS_SELECTOR, ".cart-products-count")
 
     @property
     def contact_us_link(self):
@@ -61,6 +64,11 @@ class Header(BasePage):
         element = self.wait_element(self.LOGO_LINK)
 
         return element
+
+    @property
+    def count_item_in_cart(self):
+        count = self.wait_element(self.COUNT_ITEM_IN_CART).text
+        return int(re.search(r"\d+", count).group())
 
     def click_contact_us_link(self):
         link = self.wait_element(self.CONTACT_US)
