@@ -20,7 +20,9 @@ def test_header_is_displayed(driver):
     assert actual_header_text == expected_header_text, (
         f"Не совпадает заголовок страницы регистрации, ожидалось {expected_header_text}, получили {actual_header_text}"
     )
-    assert RegistrationPage(driver).header.is_displayed(), f"Не отображается хедер на странице регистрации"
+    assert RegistrationPage(driver).header.is_displayed(), (
+        f"Не отображается хедер на странице регистрации"
+    )
 
 
 @pytest.mark.registration_page
@@ -48,10 +50,12 @@ def test_click_in_save_button(driver):
 
     # Вот этот тест помогла мне написать нейронная сеть, это норма практика?
     assert driver.execute_script(
-        "return !arguments[0].validity.valid;", RegistrationPage(driver).first_name_input
+        "return !arguments[0].validity.valid;",
+        RegistrationPage(driver).first_name_input,
     )
     assert driver.execute_script(
-        "return arguments[0].validity.valueMissing;", RegistrationPage(driver).first_name_input
+        "return arguments[0].validity.valueMissing;",
+        RegistrationPage(driver).first_name_input,
     )
 
 
@@ -77,9 +81,7 @@ def test_register_user(driver):
 
     full_name = MainPage(driver).user_full_name.text
 
-    assert full_name == expected_full_name, (
-        f"Регистрация завершилась неудачно"
-    )
+    assert full_name == expected_full_name, f"Регистрация завершилась неудачно"
 
 
 @pytest.mark.registration_page

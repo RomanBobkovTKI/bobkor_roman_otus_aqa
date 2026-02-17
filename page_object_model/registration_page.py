@@ -18,7 +18,7 @@ class RegistrationPage(BasePage):
     CHECKBOX_PRIVACY_DATA = (By.CSS_SELECTOR, "input[name = 'customer_privacy']")
 
     @property
-    def header (self):
+    def header(self):
         header = self.wait_element(self.HEADER)
 
         return header
