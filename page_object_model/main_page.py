@@ -8,12 +8,19 @@ from page_object_model.base_page import BasePage
 class MainPage(BasePage):
     FIRST_CURRENCY_PRICE = (By.CSS_SELECTOR, ".price")
     PRODUCT_CARD = (By.CSS_SELECTOR, ".thumbnail.product-thumbnail")
+    USER_FULL_NAME = (By.CSS_SELECTOR, ".account .hidden-sm-down")
 
     @property
     def currency_price_element(self):
         currency_price = self.wait_element(self.FIRST_CURRENCY_PRICE)
 
         return currency_price
+
+    @property
+    def user_full_name(self):
+        full_name = self.wait_element(self.USER_FULL_NAME)
+
+        return full_name
 
     def click_to_random_product_card(self):
         buttons = self.wait_elements(self.PRODUCT_CARD)
