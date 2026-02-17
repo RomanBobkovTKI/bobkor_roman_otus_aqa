@@ -13,8 +13,14 @@ class AdministrationProductsPage(BasePage):
     SUMMARY_TEXTAREA = (By.CSS_SELECTOR, "#product_description_description_short_1")
     DESCRIPTION_TEXTAREA = (By.CSS_SELECTOR, "#product_description_description_1")
     SAVE_PRODUCT_BUTTON = (By.CSS_SELECTOR, "#product_footer_save")
-    SUCCESS_MESSAGE = (By.XPATH, "//p[contains(text(), 'Successful update')]")
+    SUCCESS_MESSAGE = (By.XPATH, "//p[contains(text(), 'Successful')]")
     IFRAME = (By.CSS_SELECTOR, 'iframe[name="modal-create-product-iframe"]')
+    ACTIONS_BUTTON_DIS = (By.CSS_SELECTOR, ".btn-group button[disabled]")
+    ACTION_BUTTON = (By.CSS_SELECTOR, ".js-bulk-actions-btn")
+    FIRST_CHECKBOX = (By.CSS_SELECTOR, ".md-checkbox")
+    DELETE_PRODUCT_BUTTON = (By.CSS_SELECTOR, "#product_grid_bulk_action_bulk_delete_ajax")
+    DELETE_PRODUCT_IN_MODAL = (By.XPATH, '//button[contains(text(), "Delete selection")]')
+    CLOSE_BUTTON = (By.XPATH, '//div[contains(@role, "dialog")]//button[contains(text(), "Close")]')
 
     @property
     def product_name_input(self):
@@ -39,6 +45,13 @@ class AdministrationProductsPage(BasePage):
         success_message = self.wait_element(self.SUCCESS_MESSAGE)
 
         return success_message
+
+    @property
+    def full_precent(self):
+        precent = self.wait_element(self.SUCCESS_PRECENT_DELETED)
+
+        return precent
+
 
     def click_add_new_product(self):
         button = self.wait_element(self.ADD_NEW_PRODUCT_BUTTON)
@@ -73,4 +86,32 @@ class AdministrationProductsPage(BasePage):
 
     def click_to_save_product_button(self):
         button = self.wait_element(self.SAVE_PRODUCT_BUTTON)
+        button.click()
+
+    def actions_button_is_disabled(self):
+        actions_button = self.wait_element(self.ACTIONS_BUTTON_DIS)
+        return actions_button.get_attribute("disabled") is not None
+
+    def click_to_first_checkbox(self):
+        button = self.wait_elements(self.FIRST_CHECKBOX)
+        button[1].click()
+
+    def click_to_actions_button_dis(self):
+        actions_button = self.wait_element(self.ACTIONS_BUTTON_DIS)
+        actions_button.click()
+
+    def click_to_actions_button(self):
+        actions_button = self.wait_element(self.ACTION_BUTTON)
+        actions_button.click()
+
+    def click_to_delete_product_button(self):
+        button = self.wait_element(self.DELETE_PRODUCT_BUTTON)
+        button.click()
+
+    def click_to_delete_product_in_modal(self):
+        button = self.wait_element(self.DELETE_PRODUCT_IN_MODAL)
+        button.click()
+
+    def click_to_close_button(self):
+        button = self.wait_element(self.CLOSE_BUTTON)
         button.click()

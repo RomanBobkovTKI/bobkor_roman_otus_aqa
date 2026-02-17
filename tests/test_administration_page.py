@@ -1,7 +1,7 @@
 import pytest
 
 from fixtures.driver import driver
-from fixtures.login_to_admin import admin_login
+from fixtures.login_to_admin import admin_login, add_product_driver
 from page_object_model.administration_login_page import AdministrationPage
 from page_object_model.administration_main_page import AdministrationMainPage
 from page_object_model.administration_products_page import AdministrationProductsPage
@@ -137,3 +137,21 @@ def test_add_new_product(admin_login):
     AdministrationProductsPage(admin_login).click_to_save_product_button()
 
     assert AdministrationProductsPage(admin_login).success_message.is_displayed(), ()
+
+
+@pytest.mark.administration_page
+def test_delete_product(add_product_driver):
+    AdministrationMainPage(add_product_driver).click_to_subtab_admin_catalog()
+    AdministrationMainPage(add_product_driver).click_to_subtab_admin_products()
+
+    is_disabled = AdministrationProductsPage(add_product_driver).actions_button_is_disabled()
+
+    if is_disabled:
+        AdministrationProductsPage(add_product_driver).click_to_first_checkbox()
+        AdministrationProductsPage(add_product_driver).click_to_actions_button()
+        AdministrationProductsPage(add_product_driver).click_to_delete_product_button()
+        AdministrationProductsPage(add_product_driver).click_to_delete_product_in_modal()
+        AdministrationProductsPage(add_product_driver).click_to_close_button()
+
+
+    assert AdministrationProductsPage(add_product_driver).success_message.is_displayed()
