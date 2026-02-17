@@ -4,7 +4,9 @@ from fixtures.driver import driver
 from fixtures.login_to_admin import admin_login
 from page_object_model.administration_login_page import AdministrationPage
 from page_object_model.administration_main_page import AdministrationMainPage
+from page_object_model.administration_products_page import AdministrationProductsPage
 from page_object_model.base_page import BasePage
+from utils.product import get_random_product
 
 
 @pytest.mark.administration_page
@@ -115,3 +117,23 @@ def test_logout(admin_login):
     AdministrationPage(admin_login).login_logo
 
     assert expected_url_path in BasePage(admin_login).current_url
+
+
+@pytest.mark.administration_page
+def test_add_new_product(admin_login):
+    product = get_random_product()
+
+    AdministrationMainPage(admin_login).click_to_subtab_admin_catalog()
+    AdministrationMainPage(admin_login).click_to_subtab_admin_products()
+    AdministrationProductsPage(admin_login).click_add_new_product()
+    AdministrationProductsPage(admin_login).click_add_new_product_in_modal()
+
+    AdministrationProductsPage(admin_login).clear_product_name()
+
+    AdministrationProductsPage(admin_login).send_keys_to_product_name(
+        product["product_name"]
+    )
+
+    AdministrationProductsPage(admin_login).click_to_save_product_button()
+
+    assert AdministrationProductsPage(admin_login).success_message.is_displayed(), ()

@@ -1,5 +1,8 @@
 from dotenv import load_dotenv
 
+from fixtures.url import presta_shop_url
+from fixtures.driver import driver
+
 
 def pytest_configure():
     load_dotenv()

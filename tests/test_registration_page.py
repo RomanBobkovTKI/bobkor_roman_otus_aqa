@@ -1,13 +1,10 @@
 import pytest
-from selenium.webdriver.common.by import By
 
 from fixtures.driver import driver
-from fixtures.url import presta_shop_url
 from page_object_model.base_page import BasePage
 from page_object_model.login_page import LoginPage
 from page_object_model.main_page import MainPage
 from page_object_model.registration_page import RegistrationPage
-from utils.wait_element import wait_element
 from utils.user import get_random_user
 
 
