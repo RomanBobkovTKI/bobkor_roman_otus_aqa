@@ -18,7 +18,9 @@ def test_email_input_is_desplayed(driver):
     assert AdministrationPage(driver).email_input.is_displayed(), (
         f"Не отображается инпут ввода мейла"
     )
-    assert_element_text_equals(AdministrationPage(driver).email_label.text, expected_email_label)
+    assert_element_text_equals(
+        AdministrationPage(driver).email_label.text, expected_email_label
+    )
 
 
 @pytest.mark.administration_page
@@ -29,7 +31,9 @@ def test_password_input_is_desplayed(driver):
     assert AdministrationPage(driver).password_input.is_displayed(), (
         f"Не отображается инпут ввода пароля"
     )
-    assert_element_text_equals(AdministrationPage(driver).password_label.text, expected_password_label)
+    assert_element_text_equals(
+        AdministrationPage(driver).password_label.text, expected_password_label
+    )
 
 
 @pytest.mark.administration_page
@@ -37,7 +41,9 @@ def test_password_input_is_desplayed(driver):
 def test_login_button_is_desplayed(driver):
     expected_login_label = "log in"
 
-    assert_element_text_equals(AdministrationPage(driver).login_button.text, expected_login_label)
+    assert_element_text_equals(
+        AdministrationPage(driver).login_button.text, expected_login_label
+    )
     assert AdministrationPage(driver).login_button.is_displayed(), (
         f"Не отображается кнопка логина"
     )
@@ -62,7 +68,9 @@ def test_click_to_forgot_pass(driver):
 def test_stay_logged_in(driver):
     expected_text = "stay logged in"
 
-    assert_element_text_equals(AdministrationPage(driver).stay_logged_in_label.text, expected_text)
+    assert_element_text_equals(
+        AdministrationPage(driver).stay_logged_in_label.text, expected_text
+    )
     assert AdministrationPage(driver).stay_logged_in_label.is_displayed(), (
         f"Не отображается надпись {'stay logged in'}"
     )
@@ -82,7 +90,9 @@ def test_login(driver):
     admin_page.send_keys_to_password("Admin123!")
     admin_page.click_to_log_in_button()
 
-    assert_element_text_equals(AdministrationMainPage(driver).dashboard_header.text, expected_dashboard_header)
+    assert_element_text_equals(
+        AdministrationMainPage(driver).dashboard_header.text, expected_dashboard_header
+    )
     assert AdministrationMainPage(driver).dashboard_header.is_displayed()
     assert expected_url_path in BasePage(driver).current_url
 
@@ -112,9 +122,7 @@ def test_add_new_product(admin_login):
 
     admin_product_page.clear_product_name()
 
-    admin_product_page.send_keys_to_product_name(
-        product["product_name"]
-    )
+    admin_product_page.send_keys_to_product_name(product["product_name"])
 
     admin_product_page.click_to_save_product_button()
 
@@ -137,4 +145,6 @@ def test_delete_product(product_admin_driver):
         admin_product_page.click_to_delete_product_in_modal()
         admin_product_page.click_to_close_button()
 
-    assert AdministrationProductsPage(product_admin_driver).success_message.is_displayed()
+    assert AdministrationProductsPage(
+        product_admin_driver
+    ).success_message.is_displayed()

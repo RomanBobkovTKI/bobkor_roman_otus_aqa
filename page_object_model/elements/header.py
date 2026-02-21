@@ -35,7 +35,9 @@ class Header(BasePage):
 
     @property
     def widget_input_placeholder(self):
-        return self.wait_element(self.WIDGET_INPUT_PLACEHOLDER).get_attribute("placeholder")
+        return self.wait_element(self.WIDGET_INPUT_PLACEHOLDER).get_attribute(
+            "placeholder"
+        )
 
     @property
     def sign_in_button(self):

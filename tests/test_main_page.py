@@ -66,7 +66,7 @@ def test_sign_in_button_is_visible(driver):
     sign_in_button = Header(driver).sign_in_button
     sign_in_text = sign_in_button.text.lower()
 
-    assert_element_text_equals(sign_in_button.text,expected_text)
+    assert_element_text_equals(sign_in_button.text, expected_text)
     assert sign_in_button.is_displayed(), f"Кнопка логина не отображается"
 
 
@@ -76,7 +76,9 @@ def test_click_to_sign_in_button(driver):
     expected_url = "login"
     Header(driver).click_to_sign_in_link()
 
-    assert_element_text_equals(LoginPage(driver).header_element.text, expected_header_text)
+    assert_element_text_equals(
+        LoginPage(driver).header_element.text, expected_header_text
+    )
     assert expected_url in BasePage(driver).current_url, (
         f"Неверный роут при переходе на страницу логина, ожидалось: {expected_url}, получено {BasePage(driver).current_url}"
     )
@@ -133,7 +135,9 @@ def test_click_to_accessories_button(driver):
     expected_url_path = "accessories"
     Header(driver).click_to_accessories_button()
 
-    assert_element_text_equals(AccessoriesPage(driver).header.text, expected_header_text)
+    assert_element_text_equals(
+        AccessoriesPage(driver).header.text, expected_header_text
+    )
     assert expected_url_path in BasePage(driver).current_url, (
         f"Неверный url по переходу в accessories, ожидалсь совпадение по {expected_url_path}, получено {BasePage(driver).current_url}"
     )

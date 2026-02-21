@@ -35,7 +35,9 @@ def test_add_to_cart_is_display(driver):
     expected_text = "\ue547 add to cart"
     MainPage(driver).click_to_random_product_card()
 
-    assert_element_text_equals(ProductCard(driver).add_to_cart_button.text, expected_text)
+    assert_element_text_equals(
+        ProductCard(driver).add_to_cart_button.text, expected_text
+    )
     assert ProductCard(driver).add_to_cart_button, (
         f"Кнопка добавления в корзину не отображается"
     )

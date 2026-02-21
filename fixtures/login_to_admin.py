@@ -10,10 +10,9 @@ def admin_login(driver, presta_shop_url):
     login_to_admin(driver, presta_shop_url)
     return driver
 
+
 @pytest.fixture
 def product_admin_driver(driver, presta_shop_url):
     login_to_admin(driver, presta_shop_url)
     add_new_product(driver)
     return driver
-
-

@@ -82,8 +82,6 @@ class RegistrationPage(BasePage):
         checkbox = self.wait_element(self.CHECKBOX_PRIVACY_INPUT)
         checkbox.click()
 
-
     def click_to_checkbox_privacy_data_input(self):
         checkbox = self.wait_element(self.CHECKBOX_PRIVACY_DATA)
         checkbox.click()
-

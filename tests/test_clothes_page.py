@@ -37,7 +37,9 @@ def test_breadcrumbs(driver):
 def test_subcategories(driver):
     expected_header_text = "subcategories"
 
-    assert_element_text_equals(ClothesPage(driver).subcategories_header.text, expected_header_text)
+    assert_element_text_equals(
+        ClothesPage(driver).subcategories_header.text, expected_header_text
+    )
     assert ClothesPage(driver).subcategories_header.is_displayed(), (
         f"Хедер Subcategories не отображается"
     )
@@ -74,7 +76,9 @@ def test_click_on_women_categories(driver):
     expected_women_url = "5-women"
     ClothesPage(driver).click_to_women_categories_link()
 
-    assert_element_text_equals(WomenCategories(driver).header.text, expected_header_text)
+    assert_element_text_equals(
+        WomenCategories(driver).header.text, expected_header_text
+    )
     assert expected_women_url in BasePage(driver).current_url, (
         f"Неверный url после перехода, ожидалось содержание 5-women, получили {BasePage(driver).current_url}"
     )

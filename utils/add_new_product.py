@@ -15,8 +15,6 @@ def add_new_product(driver):
 
     admin_product_page.clear_product_name()
 
-    admin_product_page.send_keys_to_product_name(
-        product["product_name"]
-    )
+    admin_product_page.send_keys_to_product_name(product["product_name"])
 
     admin_product_page.click_to_save_product_button()

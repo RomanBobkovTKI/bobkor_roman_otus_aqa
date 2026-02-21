@@ -42,7 +42,6 @@ class BasePage:
         except TimeoutException:
             raise AssertionError(f"Не дождался видимости элемента: {locator[1]}")
 
-
     def click(self, locator: tuple[str, str]):
         try:
             element = self.wait.until(EC.element_to_be_clickable(locator))

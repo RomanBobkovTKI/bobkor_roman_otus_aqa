@@ -17,9 +17,18 @@ class AdministrationProductsPage(BasePage):
     ACTIONS_BUTTON_DIS = (By.CSS_SELECTOR, ".btn-group button[disabled]")
     ACTION_BUTTON = (By.CSS_SELECTOR, ".js-bulk-actions-btn")
     MD_CHECKBOX = (By.CSS_SELECTOR, ".md-checkbox")
-    DELETE_PRODUCT_BUTTON = (By.CSS_SELECTOR, "#product_grid_bulk_action_bulk_delete_ajax")
-    DELETE_PRODUCT_IN_MODAL = (By.XPATH, '//button[contains(text(), "Delete selection")]')
-    CLOSE_BUTTON = (By.XPATH, '//div[contains(@role, "dialog")]//button[contains(text(), "Close")]')
+    DELETE_PRODUCT_BUTTON = (
+        By.CSS_SELECTOR,
+        "#product_grid_bulk_action_bulk_delete_ajax",
+    )
+    DELETE_PRODUCT_IN_MODAL = (
+        By.XPATH,
+        '//button[contains(text(), "Delete selection")]',
+    )
+    CLOSE_BUTTON = (
+        By.XPATH,
+        '//div[contains(@role, "dialog")]//button[contains(text(), "Close")]',
+    )
 
     @property
     def product_name_input(self):
@@ -36,7 +45,6 @@ class AdministrationProductsPage(BasePage):
     @property
     def success_message(self):
         return self.wait_element(self.SUCCESS_MESSAGE)
-
 
     def click_add_new_product(self):
         self.click(self.ADD_NEW_PRODUCT_BUTTON)

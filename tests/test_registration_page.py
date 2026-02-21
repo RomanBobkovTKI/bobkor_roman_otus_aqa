@@ -14,7 +14,9 @@ from utils.user import get_random_user
 def test_header_is_displayed(driver):
     expected_header_text = "create an account"
 
-    assert_element_text_equals(RegistrationPage(driver).header.text, expected_header_text)
+    assert_element_text_equals(
+        RegistrationPage(driver).header.text, expected_header_text
+    )
     assert RegistrationPage(driver).header.is_displayed(), (
         f"Не отображается хедер на странице регистрации"
     )
@@ -27,7 +29,9 @@ def test_have_account_click(driver):
     expected_url_path = "login"
     RegistrationPage(driver).click_to_log_in_instead()
 
-    assert_element_text_equals(LoginPage(driver).header_element.text, expected_header_text)
+    assert_element_text_equals(
+        LoginPage(driver).header_element.text, expected_header_text
+    )
     assert expected_url_path in BasePage(driver).current_url
 
 
