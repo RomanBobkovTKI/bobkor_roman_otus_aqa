@@ -19,63 +19,37 @@ class RegistrationPage(BasePage):
 
     @property
     def header(self):
-        header = self.wait_element(self.HEADER)
-
-        return header
+        return self.wait_element(self.HEADER)
 
     @property
     def first_name_input(self):
-        fn_input = self.wait_element(self.FIRST_NAME_INPUT)
-
-        return fn_input
+        return self.wait_element(self.FIRST_NAME_INPUT)
 
     @property
     def last_name_input(self):
-        last_name_input = self.wait_element(self.LAST_NAME_INPUT)
-
-        return last_name_input
+        return self.wait_element(self.LAST_NAME_INPUT)
 
     @property
     def email_input(self):
-        email_input = self.wait_element(self.EMAIL_INPUT)
-
-        return email_input
+        return self.wait_element(self.EMAIL_INPUT)
 
     @property
     def password_input(self):
-        password_input = self.wait_element(self.PASSWORD_INPUT)
-
-        return password_input
+        return self.wait_element(self.PASSWORD_INPUT)
 
     @property
     def birthday_input(self):
-        birthday_input = self.wait_element(self.BIRTHDAY_INPUT)
-
-        return birthday_input
-
-    @property
-    def checkbox_privacy_input(self):
-        checkbox = self.wait_element(self.CHECKBOX_PRIVACY_INPUT)
-
-        return checkbox
-
-    @property
-    def checkbox_privacy_data_input(self):
-        checkbox = self.wait_element(self.CHECKBOX_PRIVACY_DATA)
-
-        return checkbox
+        return self.wait_element(self.BIRTHDAY_INPUT)
 
     def click_to_log_in_instead(self):
-        link = self.wait_element(self.HAVE_ACCOUNT_LINK)
-        link.click()
+        self.click(self.HAVE_ACCOUNT_LINK)
 
     def clear_first_name_input(self):
         fn_input = self.wait_element(self.FIRST_NAME_INPUT)
         fn_input.clear()
 
     def click_to_save_button(self):
-        button = self.wait_element(self.SAVE_BUTTON)
-        button.click()
+        self.click(self.SAVE_BUTTON)
 
     def send_keys_to_first_name_input(self, first_name):
         self.first_name_input.send_keys(first_name)
@@ -105,8 +79,11 @@ class RegistrationPage(BasePage):
         self.birthday_input.send_keys(birthday)
 
     def click_to_checkbox_privacy_input(self):
-        checkbox = self.checkbox_privacy_input
+        checkbox = self.wait_element(self.CHECKBOX_PRIVACY_INPUT)
         checkbox.click()
 
+
     def click_to_checkbox_privacy_data_input(self):
-        self.checkbox_privacy_data_input.click()
+        checkbox = self.wait_element(self.CHECKBOX_PRIVACY_DATA)
+        checkbox.click()
+

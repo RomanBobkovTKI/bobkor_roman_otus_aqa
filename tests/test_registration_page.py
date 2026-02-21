@@ -5,6 +5,7 @@ from page_object_model.base_page import BasePage
 from page_object_model.login_page import LoginPage
 from page_object_model.main_page import MainPage
 from page_object_model.registration_page import RegistrationPage
+from utils.asserts.assert_text_equals import assert_element_text_equals
 from utils.user import get_random_user
 
 
@@ -12,11 +13,8 @@ from utils.user import get_random_user
 @pytest.mark.parametrize("presta_shop_url", [RegistrationPage.URL], indirect=True)
 def test_header_is_displayed(driver):
     expected_header_text = "create an account"
-    actual_header_text = RegistrationPage(driver).header.text.strip().lower()
 
-    assert actual_header_text == expected_header_text, (
-        f"Не совпадает заголовок страницы регистрации, ожидалось {expected_header_text}, получили {actual_header_text}"
-    )
+    assert_element_text_equals(RegistrationPage(driver).header.text, expected_header_text)
     assert RegistrationPage(driver).header.is_displayed(), (
         f"Не отображается хедер на странице регистрации"
     )
@@ -28,11 +26,8 @@ def test_have_account_click(driver):
     expected_header_text = "log in to your account"
     expected_url_path = "login"
     RegistrationPage(driver).click_to_log_in_instead()
-    login_header_text = LoginPage(driver).header_element.text.strip().lower()
 
-    assert login_header_text == expected_header_text, (
-        f"Неверный заголовок на странице авторизации, ожиадли {expected_header_text}, получаем {login_header_text}"
-    )
+    assert_element_text_equals(LoginPage(driver).header_element.text, expected_header_text)
     assert expected_url_path in BasePage(driver).current_url
 
 

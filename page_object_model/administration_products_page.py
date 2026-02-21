@@ -1,4 +1,3 @@
-from selenium.webdriver.support import wait
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -17,53 +16,36 @@ class AdministrationProductsPage(BasePage):
     IFRAME = (By.CSS_SELECTOR, 'iframe[name="modal-create-product-iframe"]')
     ACTIONS_BUTTON_DIS = (By.CSS_SELECTOR, ".btn-group button[disabled]")
     ACTION_BUTTON = (By.CSS_SELECTOR, ".js-bulk-actions-btn")
-    FIRST_CHECKBOX = (By.CSS_SELECTOR, ".md-checkbox")
+    MD_CHECKBOX = (By.CSS_SELECTOR, ".md-checkbox")
     DELETE_PRODUCT_BUTTON = (By.CSS_SELECTOR, "#product_grid_bulk_action_bulk_delete_ajax")
     DELETE_PRODUCT_IN_MODAL = (By.XPATH, '//button[contains(text(), "Delete selection")]')
     CLOSE_BUTTON = (By.XPATH, '//div[contains(@role, "dialog")]//button[contains(text(), "Close")]')
 
     @property
     def product_name_input(self):
-        input_name = self.wait_element(self.PRODUCT_NAME)
-
-        return input_name
+        return self.wait_element(self.PRODUCT_NAME)
 
     @property
     def product_summary_textarea(self):
-        summary = self.wait_element(self.SUMMARY_TEXTAREA)
-
-        return summary
+        return self.wait_element(self.SUMMARY_TEXTAREA)
 
     @property
     def product_description_input(self):
-        input_description = self.wait_element(self.DESCRIPTION_TEXTAREA)
-
-        return input_description
+        return self.wait_element(self.DESCRIPTION_TEXTAREA)
 
     @property
     def success_message(self):
-        success_message = self.wait_element(self.SUCCESS_MESSAGE)
-
-        return success_message
-
-    @property
-    def full_precent(self):
-        precent = self.wait_element(self.SUCCESS_PRECENT_DELETED)
-
-        return precent
+        return self.wait_element(self.SUCCESS_MESSAGE)
 
 
     def click_add_new_product(self):
-        button = self.wait_element(self.ADD_NEW_PRODUCT_BUTTON)
-        button.click()
+        self.click(self.ADD_NEW_PRODUCT_BUTTON)
 
     def click_add_new_product_in_modal(self):
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.frame_to_be_available_and_switch_to_it(self.IFRAME))
 
-        button = self.wait_element(self.ADD_NEW_PRODUCT_IN_MODAL, timeout=10)
-        button.click()
-
+        self.click(self.ADD_NEW_PRODUCT_IN_MODAL)
         self.driver.switch_to.default_content()
 
     def clear_product_name(self):
@@ -85,33 +67,27 @@ class AdministrationProductsPage(BasePage):
         self.product_description_input.send_keys(product_description_input)
 
     def click_to_save_product_button(self):
-        button = self.wait_element(self.SAVE_PRODUCT_BUTTON)
-        button.click()
+        self.click(self.SAVE_PRODUCT_BUTTON)
 
     def actions_button_is_disabled(self):
         actions_button = self.wait_element(self.ACTIONS_BUTTON_DIS)
         return actions_button.get_attribute("disabled") is not None
 
     def click_to_first_checkbox(self):
-        button = self.wait_elements(self.FIRST_CHECKBOX)
+        button = self.wait_elements(self.MD_CHECKBOX)
         button[1].click()
 
     def click_to_actions_button_dis(self):
-        actions_button = self.wait_element(self.ACTIONS_BUTTON_DIS)
-        actions_button.click()
+        self.click(self.ACTIONS_BUTTON_DIS)
 
     def click_to_actions_button(self):
-        actions_button = self.wait_element(self.ACTION_BUTTON)
-        actions_button.click()
+        self.click(self.ACTION_BUTTON)
 
     def click_to_delete_product_button(self):
-        button = self.wait_element(self.DELETE_PRODUCT_BUTTON)
-        button.click()
+        self.click(self.DELETE_PRODUCT_BUTTON)
 
     def click_to_delete_product_in_modal(self):
-        button = self.wait_element(self.DELETE_PRODUCT_IN_MODAL)
-        button.click()
+        self.click(self.DELETE_PRODUCT_IN_MODAL)
 
     def click_to_close_button(self):
-        button = self.wait_element(self.CLOSE_BUTTON)
-        button.click()
+        self.click(self.CLOSE_BUTTON)

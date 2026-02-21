@@ -8,6 +8,4 @@ class SignInLoginModal(BasePage):
 
     @property
     def header(self):
-        header = self.wait_element(self.MODAL_HEADER)
-
-        return header
+        return self.wait_element(self.MODAL_HEADER)

@@ -8,6 +8,4 @@ class MenCategories(BasePage):
 
     @property
     def header(self):
-        header = self.wait_element(self.HEADER)
-
-        return header
+        return self.wait_element(self.HEADER)

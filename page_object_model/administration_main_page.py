@@ -12,22 +12,16 @@ class AdministrationMainPage(BasePage):
 
     @property
     def dashboard_header(self):
-        header = self.wait_element(self.HEADER_DASHBOARD, timeout=10)
-
-        return header
+        return self.wait_element(self.HEADER_DASHBOARD, timeout=10)
 
     def click_to_profile_icon(self):
-        icon = self.wait_element(self.PROFILE_ICON)
-        icon.click()
+        self.click(self.PROFILE_ICON)
 
     def click_logout_button(self):
-        button = self.wait_element(self.LOGOUT_BUTTON)
-        button.click()
+        self.click(self.LOGOUT_BUTTON)
 
     def click_to_subtab_admin_catalog(self):
-        button = self.wait_element(self.SUBTAB_ADMIN_CATALOG)
-        button.click()
+        self.click(self.SUBTAB_ADMIN_CATALOG)
 
     def click_to_subtab_admin_products(self):
-        button = self.wait_element(self.SUBTAB_ADMIN_PRODUCTS)
-        button.click()
+        self.click(self.SUBTAB_ADMIN_PRODUCTS)

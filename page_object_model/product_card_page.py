@@ -17,56 +17,38 @@ class ProductCard(BasePage):
 
     @property
     def product_name_from_breadcrumbs(self):
-        breadcrumbs = self.wait_element(self.BREADCRUMBS_PRODUCT_NAME)
-
-        return breadcrumbs
+        return self.wait_element(self.BREADCRUMBS_PRODUCT_NAME)
 
     @property
     def header_card_name(self):
-        header = self.wait_element(self.HEADER)
-
-        return header
+        return self.wait_element(self.HEADER)
 
     @property
     def price(self):
-        price = self.wait_element(self.PRICE)
-
-        return price
+        return self.wait_element(self.PRICE)
 
     @property
     def add_to_cart_button(self):
-        button = self.wait_element(self.ADD_TO_CART_BUTTON)
-
-        return button
+        return self.wait_element(self.ADD_TO_CART_BUTTON)
 
     @property
     def facebook_icon(self):
-        icon = self.wait_element(self.FB_ICON)
-
-        return icon
+        return self.wait_element(self.FB_ICON)
 
     @property
     def x_icon(self):
-        icon = self.wait_element(self.X_ICON)
-
-        return icon
+        return self.wait_element(self.X_ICON)
 
     @property
     def pinterest_icon(self):
-        icon = self.wait_element(self.PINTEREST_ICON)
-
-        return icon
+        return self.wait_element(self.PINTEREST_ICON)
 
     @property
     def wishlist_button(self):
-        button = self.wait_element(self.WISHLIST_BUTTON)
-
-        return button
+        return self.wait_element(self.WISHLIST_BUTTON)
 
     def click_to_add_to_cart(self):
-        button = self.wait_element(self.ADD_TO_CART_BUTTON)
-        button.click()
+        self.click(self.ADD_TO_CART_BUTTON)
 
     def click_to_add_to_wishlist(self):
-        button = self.wait_element(self.WISHLIST_BUTTON)
-        button.click()
+        self.click(self.WISHLIST_BUTTON)

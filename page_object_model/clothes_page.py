@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 
 from page_object_model.base_page import BasePage
+from utils.text_from_lement_list import get_text_from_element_list
 
 
 class ClothesPage(BasePage):
@@ -18,34 +19,28 @@ class ClothesPage(BasePage):
 
     @property
     def header(self):
-        header = self.wait_element(self.HEADER)
-
-        return header
+        return self.wait_element(self.HEADER)
 
     @property
     def breadcrumbs_text_list(self):
-        breadcrumbs_text = self.wait_elements(self.ALL_BREADCRUMBS_TEXT)
-        breadcrumbs_list = [el.text.strip() for el in breadcrumbs_text]
+        breadcrumbs_list = self.wait_elements(self.ALL_BREADCRUMBS_TEXT)
+        breadcrumbs_text = get_text_from_element_list(breadcrumbs_list)
 
-        return breadcrumbs_list
+        return breadcrumbs_text
 
     @property
     def subcategories_header(self):
-        subcategories = self.wait_element(self.SUBCATEGORIES_HEADER)
-
-        return subcategories
+        return self.wait_element(self.SUBCATEGORIES_HEADER)
 
     @property
     def all_subcategories_list(self):
-        all_subcategories = self.wait_elements(self.ALL_SUBCATEGORIES)
-        list_subcategories = [el.text.strip() for el in all_subcategories]
+        subcategories_list = self.wait_elements(self.ALL_SUBCATEGORIES)
+        subcategories_text = get_text_from_element_list(subcategories_list)
 
-        return list_subcategories
+        return subcategories_text
 
     def click_to_men_categories_button(self):
-        button = self.wait_element(self.MEN_CATEGORIES_BUTTON)
-        button.click()
+        self.click(self.MEN_CATEGORIES_BUTTON)
 
     def click_to_women_categories_link(self):
-        link = self.wait_element(self.WOMEN_CATEGORIES_LINK)
-        link.click()
+        self.click(self.WOMEN_CATEGORIES_LINK)

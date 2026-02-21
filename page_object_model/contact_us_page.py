@@ -8,6 +8,4 @@ class ContactUs(BasePage):
 
     @property
     def header_page_text(self):
-        header = self.wait_element(self.HEADER)
-
-        return header.text
+        return self.wait_element(self.HEADER).text

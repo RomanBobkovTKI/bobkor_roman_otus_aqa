@@ -8,6 +8,4 @@ class LoginPage(BasePage):
 
     @property
     def header_element(self):
-        element = self.wait_element(self.HEADER)
-
-        return element
+        return self.wait_element(self.HEADER)

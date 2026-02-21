@@ -12,15 +12,11 @@ class MainPage(BasePage):
 
     @property
     def currency_price_element(self):
-        currency_price = self.wait_element(self.FIRST_CURRENCY_PRICE)
-
-        return currency_price
+        return self.wait_element(self.FIRST_CURRENCY_PRICE)
 
     @property
     def user_full_name(self):
-        full_name = self.wait_element(self.USER_FULL_NAME)
-
-        return full_name
+        return self.wait_element(self.USER_FULL_NAME)
 
     def click_to_random_product_card(self):
         buttons = self.wait_elements(self.PRODUCT_CARD)

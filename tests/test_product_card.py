@@ -6,6 +6,7 @@ from page_object_model.elements.sign_in_login_modal import SignInLoginModal
 from page_object_model.elements.success_add_to_cart_modal import SuccessAddToCartModal
 from page_object_model.main_page import MainPage
 from page_object_model.product_card_page import ProductCard
+from utils.asserts.assert_text_equals import assert_element_text_equals
 
 
 @pytest.mark.product_card
@@ -33,11 +34,8 @@ def test_coast_is_display(driver):
 def test_add_to_cart_is_display(driver):
     expected_text = "\ue547 add to cart"
     MainPage(driver).click_to_random_product_card()
-    actual_button_text = ProductCard(driver).add_to_cart_button.text.strip().lower()
 
-    assert actual_button_text == expected_text, (
-        f"Неверная надпись на кнопке добавления в корзину, ожиадлось: {expected_text}, получили: {actual_button_text}"
-    )
+    assert_element_text_equals(ProductCard(driver).add_to_cart_button.text, expected_text)
     assert ProductCard(driver).add_to_cart_button, (
         f"Кнопка добавления в корзину не отображается"
     )

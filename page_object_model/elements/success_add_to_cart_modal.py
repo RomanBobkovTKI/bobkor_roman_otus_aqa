@@ -7,5 +7,4 @@ class SuccessAddToCartModal(BasePage):
     CLOSE_MODAL_BUTTON = (By.CSS_SELECTOR, ".modal-header .close .material-icons")
 
     def click_to_close_modal(self):
-        button = self.wait_element(self.CLOSE_MODAL_BUTTON)
-        button.click()
+        self.click(self.CLOSE_MODAL_BUTTON)

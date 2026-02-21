@@ -9,6 +9,7 @@ from page_object_model.contact_us_page import ContactUs
 from page_object_model.elements.header import Header
 from page_object_model.login_page import LoginPage
 from page_object_model.main_page import MainPage
+from utils.asserts.assert_text_equals import assert_element_text_equals
 from utils.currency_symbol import extract_currency_symbol
 
 
@@ -61,13 +62,11 @@ def test_placeholder_from_search_widget(driver):
 
 @pytest.mark.main_page
 def test_sign_in_button_is_visible(driver):
-    expected_text = "Sign In".lower()
+    expected_text = "sign in"
     sign_in_button = Header(driver).sign_in_button
     sign_in_text = sign_in_button.text.lower()
 
-    assert expected_text == sign_in_text, (
-        f"Неверный текст у кнопки входа: ожидалось {expected_text}, получено {sign_in_text}"
-    )
+    assert_element_text_equals(sign_in_button.text,expected_text)
     assert sign_in_button.is_displayed(), f"Кнопка логина не отображается"
 
 
@@ -76,11 +75,8 @@ def test_click_to_sign_in_button(driver):
     expected_header_text = "Log in to your account".lower()
     expected_url = "login"
     Header(driver).click_to_sign_in_link()
-    actual_text = LoginPage(driver).header_element.text.lower()
 
-    assert expected_header_text == actual_text, (
-        f"Неверный текст заголовка: ожидалось {expected_header_text}, получено: {actual_text}"
-    )
+    assert_element_text_equals(LoginPage(driver).header_element.text, expected_header_text)
     assert expected_url in BasePage(driver).current_url, (
         f"Неверный роут при переходе на страницу логина, ожидалось: {expected_url}, получено {BasePage(driver).current_url}"
     )
@@ -124,11 +120,8 @@ def test_click_to_clothes_button(driver):
     expected_header_text = "clothes"
     expected_url_path = "clothes"
     Header(driver).click_to_clothes_button()
-    header_text = ClothesPage(driver).header.text.strip().lower()
 
-    assert header_text == expected_header_text, (
-        f"Неверный header страницы, ожидалось: {expected_header_text}, получено {header_text}"
-    )
+    assert_element_text_equals(ClothesPage(driver).header.text, expected_header_text)
     assert expected_url_path in BasePage(driver).current_url, (
         f"Неверный url по переходу в clothes, ожидалсь совпадение по {expected_url_path}, получено {BasePage(driver).current_url}"
     )
@@ -139,11 +132,8 @@ def test_click_to_accessories_button(driver):
     expected_header_text = "accessories"
     expected_url_path = "accessories"
     Header(driver).click_to_accessories_button()
-    actual_header_text = AccessoriesPage(driver).header.text.strip().lower()
 
-    assert expected_header_text == actual_header_text, (
-        f"Неверный header страницы, ожидалось: {expected_header_text}, получено {actual_header_text}"
-    )
+    assert_element_text_equals(AccessoriesPage(driver).header.text, expected_header_text)
     assert expected_url_path in BasePage(driver).current_url, (
         f"Неверный url по переходу в accessories, ожидалсь совпадение по {expected_url_path}, получено {BasePage(driver).current_url}"
     )

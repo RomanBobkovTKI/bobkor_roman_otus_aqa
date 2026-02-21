@@ -21,60 +21,42 @@ class AdministrationPage(BasePage):
 
     @property
     def email_input(self):
-        email_input = self.wait_element(self.EMAIL_INPUT)
-
-        return email_input
+        return self.wait_element(self.EMAIL_INPUT)
 
     @property
     def email_label(self):
-        email_label = self.wait_element(self.EMAIL_LABEL)
-
-        return email_label
+        return self.wait_element(self.EMAIL_LABEL)
 
     @property
     def password_input(self):
-        password_input = self.wait_element(self.PASSWORD_INPUT)
-
-        return password_input
+        return self.wait_element(self.PASSWORD_INPUT)
 
     @property
     def password_label(self):
-        password_label = self.wait_element(self.PASSWORD_LABEL)
-
-        return password_label
+        return self.wait_element(self.PASSWORD_LABEL)
 
     @property
     def login_button(self):
-        login_button = self.wait_element(self.LOGIN_BUTTON)
-
-        return login_button
+        return self.wait_element(self.LOGIN_BUTTON)
 
     @property
     def forgot_pass_link(self):
-        link = self.wait_element(self.FORGOT_PASS_LINK)
-
-        return link
+        return self.wait_element(self.FORGOT_PASS_LINK)
 
     @property
     def reset_pass_button(self):
-        button = self.wait_element(self.RESET_PASS_BUTTON)
-
-        return button
+        return self.wait_element(self.RESET_PASS_BUTTON)
 
     @property
     def stay_logged_in_label(self):
-        label = self.wait_element(self.STAY_LOGIN_IN_LABEL)
-
-        return label
+        return self.wait_element(self.STAY_LOGIN_IN_LABEL)
 
     @property
     def login_logo(self):
-        logo = self.wait_element(self.LOGIN_LOGO)
-
-        return logo
+        return self.wait_element(self.LOGIN_LOGO)
 
     def click_to_forgot_pass(self):
-        self.forgot_pass_link.click()
+        self.click(self.FORGOT_PASS_LINK)
 
     def clear_email_input(self):
         self.email_input.clear()
@@ -89,4 +71,4 @@ class AdministrationPage(BasePage):
         self.password_input.send_keys(password)
 
     def click_to_log_in_button(self):
-        self.login_button.click()
+        self.click(self.LOGIN_BUTTON)

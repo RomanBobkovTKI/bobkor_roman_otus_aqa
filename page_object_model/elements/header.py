@@ -31,39 +31,27 @@ class Header(BasePage):
 
     @property
     def widget_input_element(self):
-        element = self.wait_element(self.SEARCH_WIDGET)
-
-        return element
+        return self.wait_element(self.SEARCH_WIDGET)
 
     @property
     def widget_input_placeholder(self):
-        placeholder = self.wait_element(self.WIDGET_INPUT_PLACEHOLDER)
-
-        return placeholder.get_attribute("placeholder")
+        return self.wait_element(self.WIDGET_INPUT_PLACEHOLDER).get_attribute("placeholder")
 
     @property
     def sign_in_button(self):
-        button = self.wait_element(self.SIGN_IN_BUTTON)
-
-        return button
+        return self.wait_element(self.SIGN_IN_BUTTON)
 
     @property
     def cart_element(self):
-        element = self.wait_element(self.CART_ELEMENT)
-
-        return element
+        return self.wait_element(self.CART_ELEMENT)
 
     @property
     def logo_element(self):
-        element = self.wait_element(self.LOGO_ELEMENT)
-
-        return element
+        return self.wait_element(self.LOGO_ELEMENT)
 
     @property
     def logo_link_element(self):
-        element = self.wait_element(self.LOGO_LINK)
-
-        return element
+        return self.wait_element(self.LOGO_LINK)
 
     @property
     def count_item_in_cart(self):
@@ -71,29 +59,22 @@ class Header(BasePage):
         return int(re.search(r"\d+", count).group())
 
     def click_contact_us_link(self):
-        link = self.wait_element(self.CONTACT_US)
-        link.click()
+        self.click(self.CONTACT_US)
 
     def click_to_sign_in_link(self):
-        link = self.wait_element(self.SIGN_IN_LINK)
-        link.click()
+        self.click(self.SIGN_IN_LINK)
 
     def click_to_logo(self):
-        link = self.wait_element(self.LOGO_ELEMENT)
-        link.click()
+        self.click(self.LOGO_ELEMENT)
 
     def click_to_clothes_button(self):
-        button = self.wait_element(self.CLOTHES_BUTTON)
-        button.click()
+        self.click(self.CLOTHES_BUTTON)
 
     def click_to_accessories_button(self):
-        button = self.wait_element(self.ACCESSORIES_BUTTON)
-        button.click()
+        self.click(self.ACCESSORIES_BUTTON)
 
     def click_to_change_currency_button(self):
-        button = self.wait_element(self.CHANGE_CURRENCY_BUTTON)
-        button.click()
+        self.click(self.CHANGE_CURRENCY_BUTTON)
 
     def click_to_dollar_value_in_currency_option(self):
-        dollar_value = self.wait_element(self.DOLLAR_VALUE_IN_CURRENCY_OPTION)
-        dollar_value.click()
+        self.click(self.DOLLAR_VALUE_IN_CURRENCY_OPTION)
