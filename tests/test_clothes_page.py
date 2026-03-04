@@ -17,7 +17,7 @@ from utils.currency_symbol import extract_currency_symbol
 def test_clothes_page(driver):
     expected_header_text = "clothes"
 
-    assert_element_text_equals(ClothesPage(driver).header.text, expected_header_text)
+    assert_element_text_equals(ClothesPage(driver).header_text, expected_header_text)
     assert ClothesPage(driver).header.is_displayed(), f"Не отображается header"
 
 

@@ -26,13 +26,16 @@ class BasePage:
         return self._wait
 
     def wait_element(self, locator: tuple[str, str], timeout: int = 4):
+        element = None
+
         try:
-            return WebDriverWait(self.driver, timeout).until(
+            element = WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located(locator)
             )
         except TimeoutException:
             raise AssertionError(f"Не дождался видимости элемента: {locator[1]}")
-            return None
+
+        return None
 
     def wait_elements(self, locator: tuple[str, str], timeout: int = 4):
         try:

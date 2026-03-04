@@ -39,6 +39,10 @@ class ClothesPage(BasePage):
 
         return subcategories_text
 
+    @property
+    def header_text(self):
+        return self.wait_element(self.HEADER).text
+
     def click_to_men_categories_button(self):
         self.click(self.MEN_CATEGORIES_BUTTON)
 
