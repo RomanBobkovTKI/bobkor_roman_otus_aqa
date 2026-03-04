@@ -3,8 +3,8 @@ import os
 import pytest
 
 
-@pytest.fixture()
-def presta_shop_url(request):
+@pytest.fixture(scope="function")
+def presta_shop_url(request) -> str:
     path = getattr(request, "param", None)
 
     protocol = os.getenv("HTTP")
