@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 
 from fixtures.url import presta_shop_url
 from fixtures.driver import driver
+from fixtures.logger import configure_logging
 
 
 def pytest_configure():
@@ -27,4 +28,11 @@ def pytest_addoption(parser):
         "--headless",
         action="store_true",
         help="run in headless mode",
+    )
+
+    parser.addoption(
+        "--app-log-level",
+        action="store",
+        default="INFO",
+        help="Уровень логирования: DEBUG, INFO, WARNING, ERROR",
     )

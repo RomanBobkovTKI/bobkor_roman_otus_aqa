@@ -1,8 +1,13 @@
+import logging
+
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from page_object_model.base_page import BasePage
+
+
+logger = logging.getLogger(__name__)
 
 
 class AdministrationProductsPage(BasePage):
@@ -60,18 +65,25 @@ class AdministrationProductsPage(BasePage):
         self.product_name_input.clear()
 
     def send_keys_to_product_name(self, product_name):
+        logger.info(f"Send keys to product name: {product_name}")
         self.product_name_input.send_keys(product_name)
 
     def clear_product_summary_textarea(self):
+        logger.debug(f"Cler input: {self.product_summary_textarea}")
         self.product_summary_textarea.clear()
 
     def send_keys_to_product_summary_textarea(self, product_summary_text):
+        logger.info(f"Send keys to product summary text: {product_summary_text}")
         self.product_summary_textarea.send_keys(product_summary_text)
 
     def clear_product_description_input(self):
+        logger.debug(f"Cler input: {self.product_description_input}")
         self.product_description_input.clear()
 
     def send_keys_to_product_description_input(self, product_description_input):
+        logger.info(
+            f"Send keys to product description input: {product_description_input}"
+        )
         self.product_description_input.send_keys(product_description_input)
 
     def click_to_save_product_button(self):
