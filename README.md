@@ -22,3 +22,15 @@ pytest
 -- url: ссылка на каком окружении запускать
 --headless: режим прогона без запуска браузера
 ```
+
+## Генериция отчета:
+
+Генерация отчёта из папки с данными
+```commandline
+allure generate allure-results -o allure-report --clean
+```
+
+Запуск локального сервера (откроется в браузере)
+```commandline
+allure open allure-report
+```

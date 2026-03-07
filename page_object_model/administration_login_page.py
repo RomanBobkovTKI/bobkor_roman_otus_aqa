@@ -1,6 +1,10 @@
+import logging
+
 from selenium.webdriver.common.by import By
 
 from page_object_model.base_page import BasePage
+
+logger = logging.getLogger(__name__)
 
 
 class AdministrationPage(BasePage):
@@ -59,15 +63,19 @@ class AdministrationPage(BasePage):
         self.click(self.FORGOT_PASS_LINK)
 
     def clear_email_input(self):
+        logger.debug(f"Clear input: {self.email_input}")
         self.email_input.clear()
 
     def clear_password_input(self):
+        logger.debug(f"Clear input: {self.password_input}")
         self.password_input.clear()
 
     def send_keys_to_email(self, email):
+        logger.info(f"Send keys to email: {email}")
         self.email_input.send_keys(email)
 
     def send_keys_to_password(self, password):
+        logger.info(f"Send keys to password: {password}")
         self.password_input.send_keys(password)
 
     def click_to_log_in_button(self):
