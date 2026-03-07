@@ -1,4 +1,5 @@
 import logging
+import allure
 
 from selenium.common import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -51,6 +52,7 @@ class BasePage:
         except TimeoutException:
             raise AssertionError(f"Не дождался видимости элемента: {locator[1]}")
 
+    @allure.step("Кликнуть по элементу {locator}")
     def click(self, locator: tuple[str, str]):
         logger.debug(f"⏳ Click for element: {locator}")
         try:

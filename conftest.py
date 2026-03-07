@@ -1,4 +1,7 @@
 from dotenv import load_dotenv
+import allure
+import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from fixtures.url import presta_shop_url
 from fixtures.driver import driver
@@ -36,3 +39,20 @@ def pytest_addoption(parser):
         default="INFO",
         help="Уровень логирования: DEBUG, INFO, WARNING, ERROR",
     )
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        for fixture in item.funcargs.values():
+            if isinstance(fixture, WebDriver):
+                screenshot = fixture.get_screenshot_as_png()
+                allure.attach(
+                    screenshot,
+                    name=f"failure_{item.name}",
+                    attachment_type=allure.attachment_type.PNG,
+                )
+                break
