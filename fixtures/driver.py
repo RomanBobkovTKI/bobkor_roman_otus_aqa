@@ -1,3 +1,5 @@
+import os
+
 import pytest
 import logging
 from selenium import webdriver
@@ -6,6 +8,8 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.service import Service
 from fixtures.url import presta_shop_url
 from fixtures.logger import configure_logging
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 logger = logging.getLogger(__name__)
 
@@ -17,12 +21,25 @@ def driver(request, presta_shop_url, configure_logging):
 
     if browser_name == "chrome":
         options = ChromeOptions()
+        service = ChromeService(options=options)
 
-        if headless:
+        if headless or os.getenv("IS_DOCKER"):
             options.add_argument("--headless")
 
+        if os.getenv("IS_DOCKER"):
+            # Обязательные аргументы для Docker
+            options.add_argument("--no-sandbox")  # Требуется в контейнере
+            options.add_argument("--disable-dev-shm-usage")  # Обходит проблемы с /dev/shm
+            options.add_argument("--disable-gpu")  # Отключаем GPU для стабильности
+
+            # service = ChromeService(ChromeDriverManager().install())
+            if os.getenv("IS_DOCKER"):
+                # webdriver-manager скачает драйвер прямо в контейнер
+                service = ChromeService(ChromeDriverManager().install())
+                logger.info("FROM DOCKER")
+
         options.page_load_strategy = "eager"
-        driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(options=options, service=service)
     elif browser_name == "firefox":
         options = FirefoxOptions()
 
