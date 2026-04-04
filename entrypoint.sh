@@ -2,4 +2,7 @@
 
 echo "🚀 Запуск тестов..."
 echo "📝 Аргументы: $@"
-pytest -n ${1:-4}
+
+WORKERS=${1:-4}
+shift
+pytest -n "$WORKERS" "$@"
