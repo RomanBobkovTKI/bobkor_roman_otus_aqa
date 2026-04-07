@@ -1,14 +1,13 @@
 import os
-
 import pytest
 import logging
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.remote.webdriver import WebDriver
 from fixtures.url import presta_shop_url
 from fixtures.logger import configure_logging
-from selenium.webdriver.chrome.service import Service as ChromeService
 
 logger = logging.getLogger(__name__)
 
@@ -17,53 +16,84 @@ logger = logging.getLogger(__name__)
 def driver(request, presta_shop_url, configure_logging):
     browser_name = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
+    executor = request.config.getoption("--executor")
+    browser_version = request.config.getoption("--browser_version")
 
-    if browser_name == "chrome":
-        options = ChromeOptions()
-        service = ChromeService(options=options)
+    if executor:
+        logger.info(f"🌐 Using remote executor: {executor}")
 
-        if headless or os.getenv("IS_DOCKER"):
-            options.add_argument("--headless")
-
-        if os.getenv("IS_DOCKER"):
-            # Обязательные аргументы для Docker
+        if browser_name == "chrome":
+            options = ChromeOptions()
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920,1080")
+
+            selenoid_options = {
+                "enableVNC": True,
+                "enableVideo": False,
+                "enableLog": True,
+                "screenResolution": "1920x1080x24",
+            }
+            options.set_capability("selenoid:options", selenoid_options)
+
+            if browser_version:
+                options.set_capability("browserVersion", browser_version)
+
+        elif browser_name == "firefox":
+            options = FirefoxOptions()
+            selenoid_options = {
+                "enableVNC": True,
+                "enableVideo": False,
+                "enableLog": True,
+                "screenResolution": "1920x1080x24",
+            }
+            options.set_capability("selenoid:options", selenoid_options)
+            if browser_version:
+                options.set_capability("browserVersion", browser_version)
+        else:
+            pytest.fail(f"❌ Unsupported browser for Selenoid: {browser_name}")
+
+        driver: WebDriver = webdriver.Remote(
+            command_executor=executor,
+            options=options,
+        )
+
+    else:
+        if browser_name == "chrome":
+            options = ChromeOptions()
+            service = ChromeService()
+
+            if headless or os.getenv("IS_DOCKER"):
+                options.add_argument("--headless=new")
 
             if os.getenv("IS_DOCKER"):
-                service = ChromeService("/usr/bin/chromedriver")
-                logger.info("FROM DOCKER")
+                options.add_argument("--no-sandbox")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--disable-gpu")
+                service = ChromeService(executable_path="/usr/bin/chromedriver")
+                logger.info("🐳 FROM DOCKER (local Chrome)")
 
-        options.page_load_strategy = "eager"
-        driver = webdriver.Chrome(options=options, service=service)
-    elif browser_name == "firefox":
-        options = FirefoxOptions()
+            options.page_load_strategy = "eager"
+            driver = webdriver.Chrome(options=options, service=service)
 
-        if headless:
-            options.add_argument("--headless")
+        elif browser_name == "firefox":
+            options = FirefoxOptions()
+            if headless:
+                options.add_argument("--headless")
+            driver = webdriver.Firefox(options=options)
 
-        driver = webdriver.Firefox(options=options)
-    elif browser_name == "safari":
-        if headless:
-            pytest.skip("Skipping headless browser")
+        elif browser_name == "safari":
+            if headless:
+                pytest.skip("Safari does not support headless mode")
+            driver = webdriver.Safari()
 
-        driver = webdriver.Safari()
-    elif browser_name == "yandex":
-        service = Service(executable_path="/Users/Bobkov.Roman5/Documents/yandexdriver")
-        options = ChromeOptions()
-        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
+        else:
+            pytest.fail(f"❌ Unsupported browser: {browser_name}")
 
-        if headless:
-            options.add_argument("--headless")
-
-        driver = webdriver.Chrome(service=service, options=options)
-    else:
-        pytest.fail(f"Unsupported browser {browser_name}")
-
-    driver.implicitly_wait(2)
+    driver.implicitly_wait(10)
     driver.get(presta_shop_url)
-    logger.info(f"🔓 Opening page: {presta_shop_url}")
+    logger.info(f"🔓 Opening: {presta_shop_url}")
 
     yield driver
 

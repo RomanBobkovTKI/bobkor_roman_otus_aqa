@@ -40,6 +40,27 @@ def pytest_addoption(parser):
         help="Уровень логирования: DEBUG, INFO, WARNING, ERROR",
     )
 
+    parser.addoption(
+        "--executor",
+        action="store",
+        default=None,
+        help="Selenoid executor URL (e.g., http://selenoid:4444/wd/hub)"
+    )
+
+    parser.addoption(
+        "--browser_version",
+        action="store",
+        default=None,
+        help="Browser version for Selenoid (e.g., 120.0)"
+    )
+
+    parser.addoption(
+        "--opencart_url",
+        action="store",
+        default=None,
+        help="URL of the PrestaShop instance",
+    )
+
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
