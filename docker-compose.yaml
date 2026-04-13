@@ -1,7 +1,6 @@
-version: '3.8'
-
 services:
   phpmyadmin:
+    platform: linux/amd64
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     environment:
@@ -9,17 +8,16 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
       PMA_USER: root
-      PMA_PASSWORD: admin
+      PMA_PASSWORD: admin  # Add password for auto-login
     restart: unless-stopped
     ports:
       - '8888:80'
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - selenoid
 
   db:
+    platform: linux/amd64
     image: mysql:8.4
     container_name: mysql_db
     restart: always
@@ -34,15 +32,15 @@ services:
       start_period: 30s
     volumes:
       - db_data:/var/lib/mysql
-    networks:
-      - selenoid
+
 
   prestashop:
+    platform: linux/amd64
     image: prestashop/prestashop:9-apache
     container_name: prestashop
     restart: always
     ports:
-      - '${OPENCART_PORT:-8081}:80'
+      - '8081:80'
     environment:
       DB_SERVER: db
       DB_NAME: prestashop
@@ -52,79 +50,49 @@ services:
       PS_INSTALL_AUTO: "1"
       PS_LANGUAGE: en
       PS_COUNTRY: US
-      ADMIN_MAIL: admin@example.com
+      ADMIN_MAIL: admin@example.com # Данные для входа в админку
       ADMIN_PASSWD: Admin123!
       PS_FOLDER_ADMIN: administration
       PS_FOLDER_INSTALL: install
-      PS_DOMAIN: localhost:${OPENCART_PORT:-8081}
-      PS_DEV_MODE: "0"
+      PS_DOMAIN: localhost:8081
     volumes:
       - ps_data:/var/www/html
     depends_on:
       db:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/install/index.php"]
-      interval: 15s
-      timeout: 10s
-      retries: 10
-      start_period: 60s
-    networks:
-      - selenoid
 
-  prestashop_postinstall:
+  prestashop_postinstall: # Удаляет install папку чтобы работала админка
+    platform: linux/amd64
     image: alpine:3.19
     depends_on:
-      prestashop:
-        condition: service_healthy
+      - prestashop
     volumes:
       - ps_data:/var/www/html
     restart: "no"
     command: >
       sh -lc '
         apk add --no-cache curl >/dev/null 2>&1 || true;
-        echo "Waiting for PrestaShop to be ready...";
-        until curl -fsS http://prestashop/install/index.php >/dev/null 2>&1; do sleep 5; done;
-        echo "Waiting for config file...";
+
+        echo "Waiting for PrestaShop HTTP to respond...";
+        until curl -fsS http://prestashop/ >/dev/null; do sleep 5; done;
+
+        echo "Waiting for config to exist...";
         until [ -f /var/www/html/config/settings.inc.php ] || [ -f /var/www/html/app/config/parameters.php ]; do sleep 2; done;
+
         echo "Extra grace period...";
-        sleep 15;
+        sleep 10;
+
         echo "Removing install folders...";
         rm -rf /var/www/html/install /var/www/html/install-dev;
-        echo "Clearing cache...";
-        rm -rf /var/www/html/var/cache/* 2>/dev/null || true;
-        echo "✅ PrestaShop post-install complete."
-      'cle
-    networks:
-      - selenoid
 
-  tests:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: prestashop_tests
-    restart: "no"
-    environment:
-      - IS_DOCKER=True
-      - PRESTA_URL=http://prestashop:80
-    depends_on:
-      prestashop:
-        condition: service_healthy
-    command: >
-      pytest -v tests/
-      --browser chrome
-      --browser_version 120.0
-      --executor http://selenoid:4444/wd/hub
-      --opencart_url http://prestashop:80
-    networks:
-      - selenoid
+        echo "Clearing cache...";
+        rm -rf /var/www/html/var/cache/* || true;
+
+        echo "Done."
+      '
 
 volumes:
   db_data:
     driver: local
   ps_data:
     driver: local
-
-networks:
-  selenoid:
-    external: true
