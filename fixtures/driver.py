@@ -17,45 +17,26 @@ def driver(request, presta_shop_url, configure_logging):
     browser_name = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
     executor = request.config.getoption("--executor")
-    browser_version = request.config.getoption("--browser_version")
 
     if executor:
         logger.info(f"🌐 Using remote executor: {executor}")
 
-        if browser_name == "chrome":
-            options = ChromeOptions()
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--disable-gpu")
-            options.add_argument("--window-size=1920,1080")
+        options = ChromeOptions()
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1920,1080")
 
-            selenoid_options = {
-                "enableVNC": True,
-                "enableVideo": False,
-                "enableLog": True,
-                "screenResolution": "1920x1080x24",
-            }
-            options.set_capability("selenoid:options", selenoid_options)
-
-            if browser_version:
-                options.set_capability("browserVersion", browser_version)
-
-        elif browser_name == "firefox":
-            options = FirefoxOptions()
-            selenoid_options = {
-                "enableVNC": True,
-                "enableVideo": False,
-                "enableLog": True,
-                "screenResolution": "1920x1080x24",
-            }
-            options.set_capability("selenoid:options", selenoid_options)
-            if browser_version:
-                options.set_capability("browserVersion", browser_version)
-        else:
-            pytest.fail(f"❌ Unsupported browser for Selenoid: {browser_name}")
-
+        options.set_capability("browserName", "chrome")
+        options.set_capability("selenoid:options", {
+            "screenResolution": "1920x1080x24",
+            "enableVNC": True,
+            "enableVideo": False,
+            "name": request.node.name
+        })
+        logger.info(f"🔗 Using base URL: {presta_shop_url}")
         driver: WebDriver = webdriver.Remote(
-            command_executor=executor,
+            command_executor=f"{executor}/wd/hub",
             options=options,
         )
 

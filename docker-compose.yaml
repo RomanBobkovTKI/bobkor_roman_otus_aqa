@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -12,12 +10,12 @@ services:
       PMA_PASSWORD: admin
     restart: unless-stopped
     ports:
-      - '8888:80'
+      - "8888:80"
     depends_on:
       db:
         condition: service_healthy
     networks:
-      - selenoid
+      - selenoid_network
 
   db:
     image: mysql:8.4
@@ -35,14 +33,14 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - selenoid
+      - selenoid_network
 
   prestashop:
     image: prestashop/prestashop:9-apache
     container_name: prestashop
     restart: always
     ports:
-      - '${OPENCART_PORT:-8081}:80'
+      - "8081:80"
     environment:
       DB_SERVER: db
       DB_NAME: prestashop
@@ -55,76 +53,78 @@ services:
       ADMIN_MAIL: admin@example.com
       ADMIN_PASSWD: Admin123!
       PS_FOLDER_ADMIN: administration
-      PS_FOLDER_INSTALL: install
-      PS_DOMAIN: localhost:${OPENCART_PORT:-8081}
-      PS_DEV_MODE: "0"
+      PS_DOMAIN: prestashop
     volumes:
       - ps_data:/var/www/html
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - selenoid_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/install/index.php"]
-      interval: 15s
-      timeout: 10s
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      interval: 10s
+      timeout: 5s
       retries: 10
       start_period: 60s
-    networks:
-      - selenoid
 
   prestashop_postinstall:
     image: alpine:3.19
     depends_on:
-      prestashop:
-        condition: service_healthy
+      - prestashop
     volumes:
       - ps_data:/var/www/html
     restart: "no"
     command: >
       sh -lc '
         apk add --no-cache curl >/dev/null 2>&1 || true;
-        echo "Waiting for PrestaShop to be ready...";
-        until curl -fsS http://prestashop/install/index.php >/dev/null 2>&1; do sleep 5; done;
-        echo "Waiting for config file...";
+        until curl -fsS http://prestashop/ >/dev/null; do sleep 5; done;
         until [ -f /var/www/html/config/settings.inc.php ] || [ -f /var/www/html/app/config/parameters.php ]; do sleep 2; done;
-        echo "Extra grace period...";
-        sleep 15;
-        echo "Removing install folders...";
+        sleep 10;
         rm -rf /var/www/html/install /var/www/html/install-dev;
-        echo "Clearing cache...";
-        rm -rf /var/www/html/var/cache/* 2>/dev/null || true;
-        echo "✅ PrestaShop post-install complete."
-      'cle
+        rm -rf /var/www/html/var/cache/* || true;
+      '
     networks:
-      - selenoid
+      - selenoid_network
 
-  tests:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: prestashop_tests
-    restart: "no"
-    environment:
-      - IS_DOCKER=True
-      - PRESTA_URL=http://prestashop:80
+  selenoid:
+    image: aerokube/selenoid:1.11.3
+    container_name: selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid/config/browsers.json:/etc/selenoid/browsers.json:ro
+    command:
+      - "-conf"
+      - "/etc/selenoid/browsers.json"
+      - "-container-network"
+      - "selenoid_network"
+      - "-timeout"
+      - "5m"
     depends_on:
-      prestashop:
-        condition: service_healthy
-    command: >
-      pytest -v tests/
-      --browser chrome
-      --browser_version 120.0
-      --executor http://selenoid:4444/wd/hub
-      --opencart_url http://prestashop:80
+      - prestashop
     networks:
+      - selenoid_network
+
+  selenoid_ui:
+    image: aerokube/selenoid-ui:1.10.11
+    container_name: selenoid_ui
+    ports:
+      - "8082:8080"
+    command:
+      - "--selenoid-uri"
+      - "http://selenoid:4444"
+    depends_on:
       - selenoid
+    networks:
+      - selenoid_network
 
 volumes:
   db_data:
-    driver: local
   ps_data:
-    driver: local
 
 networks:
-  selenoid:
-    external: true
+  selenoid_network:
+    name: selenoid_network
+    driver: bridge
