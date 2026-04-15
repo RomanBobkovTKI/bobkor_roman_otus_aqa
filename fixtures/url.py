@@ -5,6 +5,8 @@ import pytest
 
 @pytest.fixture(scope="function")
 def presta_shop_url(request) -> str:
+    executor = request.config.getoption("--executor")
+
     path = getattr(request, "param", None)
 
     opencart_url = request.config.getoption("--opencart_url")
@@ -27,4 +29,8 @@ def presta_shop_url(request) -> str:
     if path is not None:
         url = f"{url}/{path}"
 
+    if executor:
+        return "http://prestashop"
+
     return url
+
