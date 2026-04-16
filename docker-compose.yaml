@@ -120,9 +120,23 @@ services:
     networks:
       - selenoid_network
 
+  jenkins:
+    build: .
+    container_name: jenkins
+    user: root
+    ports:
+      - "8085:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - selenoid_network
+
 volumes:
   db_data:
   ps_data:
+  jenkins_home:
 
 networks:
   selenoid_network:

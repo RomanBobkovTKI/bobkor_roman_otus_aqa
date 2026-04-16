@@ -1,20 +1,9 @@
-FROM python:3.10-slim
+FROM jenkins/jenkins:lts
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+USER root
 
-WORKDIR /app
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip python3-venv && \
+    apt-get clean
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-RUN mkdir -p /app/reports
-
-CMD ["pytest", "-v", "tests/", "-m", "main_page"]
+USER jenkins
