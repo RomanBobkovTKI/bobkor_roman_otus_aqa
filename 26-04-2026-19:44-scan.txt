@@ -1,0 +1,46 @@
+Отчёт о состоянии системы:
+Пользователи системы: Bobkov.Roman5, _accessoryupdater, _analyticsd, _appleevents, _applepay, _audiomxd, _biome, _cmiodalassistants, _coreaudiod, _corespeechd, _ctkd, _diskimagesiod, _distnote, _driverkit, _fpsd, _gamecontrollerd, _installcoordinationd, _locationd, _mdnsresponder, _mds_stores, _modelmanagerd, _nearbyd, _netbios, _networkd, _neuralengine, _nsurlsessiond, _oahd, _rmd, _securityagent, _softwareupdate, _spotlight, _timed, _trustd, _usbmuxd, _windowserver, root
+Процессов запущено: 399
+
+Пользовательских процессов:
+Bobkov.Roman5: 229
+_windowserver: 2
+root: 104
+_driverkit: 4
+_trustd: 1
+_coreaudiod: 3
+_softwareupdate: 2
+_biome: 1
+_netbios: 1
+_neuralengine: 1
+_rmd: 1
+_diskimagesiod: 14
+_applepay: 1
+_gamecontrollerd: 1
+_securityagent: 1
+_fpsd: 3
+_installcoordinationd: 1
+_modelmanagerd: 3
+_nearbyd: 1
+_ctkd: 1
+_appleevents: 2
+_oahd: 1
+_cmiodalassistants: 5
+_accessoryupdater: 1
+_spotlight: 1
+_nsurlsessiond: 2
+_audiomxd: 2
+_mds_stores: 1
+_locationd: 2
+_mdnsresponder: 1
+_networkd: 1
+_usbmuxd: 1
+_timed: 1
+_distnote: 1
+_corespeechd: 1
+_analyticsd: 1
+
+Всего памяти используется: 58.7%
+Всего CPU используется: 322.8%
+Больше всего памяти использует: /Applications/Androi
+Больше всего CPU использует: /Applications/Androi
